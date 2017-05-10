@@ -53,6 +53,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        loginPresenter.toMainActivity();
     }
 
 
@@ -88,8 +89,7 @@ public class LoginActivity extends BaseActivity {
         loginPresenter.saveUserInfo(userName,pwd);
 
         //跳转到主界面
-        finish();
-        startActivity(new Intent(this, MainActivity.class));
+        toMainActivity();
     }
 
     /**
@@ -110,5 +110,11 @@ public class LoginActivity extends BaseActivity {
             return false;
         }
         return true;
+    }
+
+    public void toMainActivity(){
+        finish();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }
