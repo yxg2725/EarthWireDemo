@@ -1,5 +1,7 @@
 package com.huadin.earthwire.View.activity;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -8,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.huadin.earthwire.R;
@@ -67,6 +70,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     protected void initView() {
+
         initToolBar(mToolbar, true, "地线管理");
         initDrawLayout();
         mSparseTags.put(R.id.nav_earthwork, "earthwork");
