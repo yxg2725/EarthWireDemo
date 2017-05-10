@@ -5,6 +5,7 @@ package com.huadin.earthwire.View.base;
  */
 
 public interface BaseView {
-  void success(Object o);
-  void failed(String msg);
+    void success(Object o);
+
+    void failed(String msg);
 }

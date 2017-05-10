@@ -14,27 +14,27 @@ import java.util.ArrayList;
 
 public class EarthWireAdapter extends FragmentPagerAdapter {
 
-  private final String[] mTitles;
-  private ArrayList<BaseFragment> fragments;
+    private final String[] mTitles;
+    private ArrayList<BaseFragment> fragments;
 
-  public EarthWireAdapter(FragmentManager fm, ArrayList<BaseFragment> fragments) {
-    super(fm);
-    mTitles = new String[]{"当前作业","历史记录"};
-    this.fragments = fragments;
-  }
+    public EarthWireAdapter(FragmentManager fm, ArrayList<BaseFragment> fragments) {
+        super(fm);
+        mTitles = new String[]{"当前作业", "历史记录"};
+        this.fragments = fragments;
+    }
 
-  @Override
-  public Fragment getItem(int position) {
-    return fragments.get(position);
-  }
+    @Override
+    public Fragment getItem(int position) {
+        return fragments.get(position);
+    }
 
-  @Override
-  public int getCount() {
-    return mTitles.length;
-  }
+    @Override
+    public int getCount() {
+        return mTitles.length;
+    }
 
-  @Override
-  public CharSequence getPageTitle(int position) {
-    return mTitles[position];
-  }
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return mTitles[position];
+    }
 }

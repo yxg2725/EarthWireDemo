@@ -9,10 +9,10 @@ import com.baidu.mapapi.SDKInitializer;
  */
 
 public class MyApp extends Application {
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    //百度地图初始化操作
-    SDKInitializer.initialize(this);
-  }
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        //百度地图初始化操作
+        SDKInitializer.initialize(this);
+    }
 }

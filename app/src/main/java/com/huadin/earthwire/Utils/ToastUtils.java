@@ -9,14 +9,14 @@ import android.widget.Toast;
 
 public class ToastUtils {
 
-  private static Toast sToast;
+    private static Toast sToast;
 
-  public static void showToast(Context context, String msg){
-    if (sToast == null){
-      sToast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+    public static void showToast(Context context, String msg) {
+        if (sToast == null) {
+            sToast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+        }
+        sToast.setText(msg);
+        sToast.show();
+
     }
-    sToast.setText(msg);
-    sToast.show();
-
-  }
 }

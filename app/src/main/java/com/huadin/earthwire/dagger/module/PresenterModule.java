@@ -12,20 +12,22 @@ import dagger.Provides;
 
 @Module
 public class PresenterModule {
-  private LoginActivity loginActivity;
-  public PresenterModule(LoginActivity view) {
-    this.loginActivity = view;
-  }
+    private LoginActivity loginActivity;
+
+    public PresenterModule(LoginActivity view) {
+        this.loginActivity = view;
+    }
 
 
-  /**
-   * 生成登录的
-   * @return
-   */
-  @Provides
-  public LoginActivityPresenter provideLoginPresenter(){
-    return new LoginActivityPresenter(loginActivity);
-  }
+    /**
+     * 生成登录的
+     *
+     * @return
+     */
+    @Provides
+    public LoginActivityPresenter provideLoginPresenter() {
+        return new LoginActivityPresenter(loginActivity);
+    }
 
 
 }

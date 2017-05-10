@@ -19,35 +19,35 @@ import butterknife.BindView;
 
 public class EarthWireFragment extends BaseFragment {
 
-  @BindView(R.id.tablayout)
-  TabLayout mTablayout;
-  @BindView(R.id.viewpager)
-  NoScrollViewPager mViewpager;
+    @BindView(R.id.tablayout)
+    TabLayout mTablayout;
+    @BindView(R.id.viewpager)
+    NoScrollViewPager mViewpager;
 
-  @Override
-  public int getlayoutId() {
-    return R.layout.fragment_home;
-  }
+    @Override
+    public int getlayoutId() {
+        return R.layout.fragment_home;
+    }
 
-  @Override
-  public void initView() {
-    ArrayList<BaseFragment> fragments = new ArrayList<>();
-    fragments.add(new EarthWireWorkFragment());
-    fragments.add(new EarthWireHistoryFragment());
+    @Override
+    public void initView() {
+        ArrayList<BaseFragment> fragments = new ArrayList<>();
+        fragments.add(new EarthWireWorkFragment());
+        fragments.add(new EarthWireHistoryFragment());
 
-    mViewpager.setOffscreenPageLimit(3);
-    EarthWireAdapter adapter = new EarthWireAdapter(getChildFragmentManager(),fragments);
-    mViewpager.setAdapter(adapter);
-    mTablayout.setupWithViewPager(mViewpager);
-  }
+        mViewpager.setOffscreenPageLimit(3);
+        EarthWireAdapter adapter = new EarthWireAdapter(getChildFragmentManager(), fragments);
+        mViewpager.setAdapter(adapter);
+        mTablayout.setupWithViewPager(mViewpager);
+    }
 
-  @Override
-  public void initData() {
-    stateLayout.showContentView();
-  }
+    @Override
+    public void initData() {
+        stateLayout.showContentView();
+    }
 
-  @Override
-  public void onReload() {
-  }
+    @Override
+    public void onReload() {
+    }
 
 }
