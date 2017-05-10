@@ -1,8 +1,11 @@
 package com.huadin.earthwire.Presenter.activity;
 
-import android.text.TextUtils;
-
+import com.huadin.earthwire.Model.net.bean.User;
+import com.huadin.earthwire.MyApp;
 import com.huadin.earthwire.Presenter.base.BasePresenter;
+import com.huadin.earthwire.Utils.Constant;
+import com.huadin.earthwire.Utils.MD5Util;
+import com.huadin.earthwire.Utils.SharedPreferenceUtils;
 import com.huadin.earthwire.View.activity.LoginActivity;
 
 /**
@@ -22,30 +25,24 @@ public class LoginActivityPresenter extends BasePresenter {
      * 登录校验逻辑
      */
     public void login(String userName, String pwd) {
-        //检验
-        if (checkInput(userName, pwd)) {
-            if (userName.equals("admin") && pwd.equals("123")) {
-                view.loginSuccess("登录成功");
-            } else {
-                view.loginFailed("账号或密码错误");
-                return;
-            }
+        if (userName.equals("admin") && pwd.equals("123")) {
+            view.success("登录成功");
+        } else {
+            view.failed("账号或密码错误");
+            return;
         }
     }
 
-    /**
-     * 校验用户名和密码是输入格式正确
-     */
-    public boolean checkInput(String userName, String pwd) {
-        if (TextUtils.isEmpty(userName)) {
-            view.failed("name");
-            return false;
-        }
-        if (TextUtils.isEmpty(pwd)) {
-            view.failed("pwd");
-            return false;
-        }
-        return true;
-    }
 
+    public void saveUserInfo(String userName, String pwd) {
+        User user = new User();
+        user.setUsername(userName);
+        user.setPassword(pwd);
+
+        String userInfo = MD5Util.md5(MyApp.getMyAppInstance().getUserBeanInfo(user));
+        //保存到本地
+        SharedPreferenceUtils.getInstance(MyApp.context)
+                .putStringSharedPrefreence(Constant.PREFERENCE_USER_ID,userInfo);
+
+    }
 }

@@ -1,5 +1,6 @@
 package com.huadin.earthwire.View.base;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import butterknife.ButterKnife;
  */
 
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,5 +108,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     public void failed(String msg) {
 
     }
+
 
 }
