@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_earthwork"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="地线作业"/>
+        <item
+            android:id="@+id/nav_pole_collection"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="杆塔采集"/>
+        <item
+            android:id="@+id/nav_pole_import"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="杆塔导入"/>
+    </group>
+
+    <group android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/ic_menu_share"
+            android:title="个人设置"/>
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_menu_send"
+            android:title="关于"/>
+
+    </group>
+
+</menu>
