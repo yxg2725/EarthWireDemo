@@ -5,4 +5,6 @@ package com.huadin.earthwire.View.activity;
  */
 
 public class NewActivity {
+
+
 }
