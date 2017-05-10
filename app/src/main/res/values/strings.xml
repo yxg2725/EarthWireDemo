@@ -5,4 +5,27 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <!-- 侧拉菜单item -->
+    <string name="sliding_menu_item_earthwork">当前作业</string>
+    <string name="sliding_menu_item_history_earthwork">历史作业</string>
+    <string name="sliding_menu_item_pole_collection">杆塔采集</string>
+    <string name="sliding_menu_item_pole_import">杆塔导入</string>
+    <string name="sliding_menu_item_data_statistics">数据统计</string>
+    <string name="sliding_menu_item_about">关于</string>
+
+    <!-- 标题栏 -->
+    <string name="title_start_work">开始作业</string>
+    <string name="title_history_work">历史作业</string>
+    <string name="title_new_work">新建作业</string>
+
+    <!-- 标题栏右侧按钮文字 -->
+    <string name="text_new">新建</string>
+    <string name="text_filtrate">筛选</string>
+    <string name="text_complete">完成</string>
+
+    <!-- 新建作业 -->
+    <string name="work_name">作业名称:</string>
+    <string name="build_team_head">工程队负责人:</string>
+    <string name="phone">负责人电话:</string>
 </resources>

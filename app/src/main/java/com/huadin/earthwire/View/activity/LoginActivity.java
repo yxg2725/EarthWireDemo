@@ -2,11 +2,8 @@ package com.huadin.earthwire.View.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.support.design.widget.TextInputEditText;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 
 import com.huadin.earthwire.Presenter.activity.LoginActivityPresenter;
@@ -20,11 +17,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-
 /**
  * Created by 华电 on 2017/5/9.
  */
-
 public class LoginActivity extends BaseActivity {
     @Inject
     LoginActivityPresenter loginPresenter;
@@ -69,10 +64,10 @@ public class LoginActivity extends BaseActivity {
 
         //检查账号和密码是否为空
         boolean checkInput = checkInput(userName, pwd);
-        if (checkInput){
+        if (checkInput) {
             dialog.show();
             loginPresenter.login(userName, pwd);
-        }else {
+        } else {
             showToast("用户名或密码不能为空");
         }
     }
@@ -80,16 +75,17 @@ public class LoginActivity extends BaseActivity {
 
     /**
      * 登录成功
+     *
      * @param o
      */
     @Override
     public void success(Object o) {
         dialog.dismiss();
-        String msg = (String)o;
+        String msg = (String) o;
         showToast(msg);
 
         //保存到本地 下次可以自动登录
-        loginPresenter.saveUserInfo(userName,pwd);
+        loginPresenter.saveUserInfo(userName, pwd);
 
         //跳转到主界面
         toMainActivity();
@@ -97,6 +93,7 @@ public class LoginActivity extends BaseActivity {
 
     /**
      * 登录失败
+     *
      * @param msg
      */
     @Override
@@ -115,7 +112,7 @@ public class LoginActivity extends BaseActivity {
         return true;
     }
 
-    public void toMainActivity(){
+    public void toMainActivity() {
         finish();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

@@ -1,7 +1,6 @@
 package com.huadin.earthwire.View.activity;
 
-import android.graphics.Color;
-import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,14 +10,15 @@ import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.huadin.earthwire.R;
+import com.huadin.earthwire.Utils.ConstUtil;
 import com.huadin.earthwire.View.base.BaseActivity;
-import com.huadin.earthwire.View.fragment.EarthWireFragment;
+import com.huadin.earthwire.View.fragment.EarthWireWorkFragment;
 
 import butterknife.BindView;
-
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -28,6 +28,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     NavigationView mNavView;
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
+    @BindView(R.id.fl_container)
+    FrameLayout flContainer;
     private long mExitTime = 0;
     private SparseArray<String> mSparseTags = new SparseArray<>();
 
@@ -70,18 +72,26 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     protected void initView() {
-
         initToolBar(mToolbar, true, "地线管理");
         initDrawLayout();
         mSparseTags.put(R.id.nav_earthwork, "earthwork");
+        mSparseTags.put(R.id.nav_history_earthwork, "history_earthwork");
         mSparseTags.put(R.id.nav_pole_collection, "collection");
         mSparseTags.put(R.id.nav_pole_import, "import");
-        mSparseTags.put(R.id.nav_setting, "setting");
+        mSparseTags.put(R.id.nav_data_statistics, "statistics");
         mSparseTags.put(R.id.nav_about, "about");
 
-        //默认展示地线作业
+        // 侧拉菜单头部点击事件
+        View headerView = mNavView.getHeaderView(0);
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast("个人信息设置");
+            }
+        });
+        // 侧拉菜单item点击事件 默认展示地线作业
         mNavView.setCheckedItem(R.id.nav_earthwork);
-        replaceFragment(R.id.fl_container, new EarthWireFragment(), mSparseTags.get(R.id.nav_earthwork));
+        replaceFragment(R.id.fl_container, new EarthWireWorkFragment(), mSparseTags.get(R.id.nav_earthwork));
     }
 
     private void initDrawLayout() {
@@ -105,14 +115,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public boolean onNavigationItemSelected(MenuItem item) {
         mDrawerLayout.closeDrawer(GravityCompat.START);
         int id = item.getItemId();
-        if (id == R.id.nav_earthwork) {//地线作业
-            replaceFragment(R.id.fl_container, new EarthWireFragment(), mSparseTags.get(R.id.nav_earthwork));
+        if (id == R.id.nav_earthwork) {//当前作业
+            replaceFragment(R.id.fl_container, new EarthWireWorkFragment(), mSparseTags.get(R.id.nav_earthwork));
+        } else if (id == R.id.nav_history_earthwork) {//历史作业
+            Bundle bundle = new Bundle();
+            bundle.putString(ConstUtil.KEY_FROM_WHAT_TO_WORK_ACTIVITY, ConstUtil.KEY_HISTORY_WORK);
+            startToActivity(bundle, WorkActivity.class);
         } else if (id == R.id.nav_pole_collection) {//杆塔采集
             showToast("杆塔采集");
         } else if (id == R.id.nav_pole_import) {//杆塔导入
             showToast("杆塔导入");
-        } else if (id == R.id.nav_setting) {//个人设置
-            showToast("个人设置");
+        } else if (id == R.id.nav_data_statistics) {//数据统计
+            showToast("数据统计");
         } else if (id == R.id.nav_about) {//关于
             showToast("关于");
         }

@@ -1,8 +1,6 @@
 package com.huadin.earthwire.View.base;
 
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,7 +8,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.huadin.earthwire.Utils.ToastUtils;
 
@@ -45,6 +42,17 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(homeAsUpEnabled);
+    }
+
+    /**
+     * 替换Activity
+     */
+    protected void startToActivity(Bundle bundle, Class clazz) {
+        Intent intent = new Intent(this, clazz);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        startActivity(intent);
     }
 
     /**

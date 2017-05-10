@@ -4,8 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.huadin.earthwire.R;
@@ -13,13 +11,6 @@ import com.huadin.earthwire.Utils.DateUtil;
 import com.huadin.earthwire.Utils.DialogUtils;
 import com.huadin.earthwire.View.activity.WorkActivity;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
-
-import java.util.Calendar;
-
-import butterknife.ButterKnife;
-
-import static com.huadin.earthwire.Utils.DateUtil.tohms;
-import static com.wdullaer.materialdatetimepicker.time.TimePickerDialog.newInstance;
 
 /**
  * Created by 华电 on 2017/4/27.
