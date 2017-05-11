@@ -2,6 +2,7 @@ package com.huadin.earthwire.View.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,11 +27,11 @@ import butterknife.OnClick;
 public class ContainerActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    public Toolbar mToolbar;
     @BindView(R.id.fl_container)
     FrameLayout flContainer;
     @BindView(R.id.fab)
-    FloatingActionButton fab;
+    public FloatingActionButton fab;
 
     private int viewID;
 
@@ -62,18 +63,23 @@ public class ContainerActivity extends BaseActivity {
                     startWorkFragment = new StartWorkFragment();
                 }
                 initToolBar(mToolbar, true, "开始作业");
-                replaceFragment(R.id.fl_container, startWorkFragment, null);
-                fab.setVisibility(View.VISIBLE);
+                replaceFragment(R.id.fl_container, startWorkFragment, "startwork");
                 break;
             case ConstUtil.KEY_FRAGMENT_HISTORY_WORK:
                 if (historyWorkFragment == null) {
                     historyWorkFragment = new HistoryWorkFragment();
                 }
                 initToolBar(mToolbar, true, "历史作业");
-                replaceFragment(R.id.fl_container, historyWorkFragment, null);
-                fab.setVisibility(View.GONE);
+                replaceFragment(R.id.fl_container, historyWorkFragment, "history");
+
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initToolBar(mToolbar,true,"");
     }
 
     @Subscribe
@@ -84,7 +90,7 @@ public class ContainerActivity extends BaseActivity {
                 newWorkFragment = new NewWorkFragment();
             }
             initToolBar(mToolbar, true, "新建作业");
-            replaceFragment(R.id.fl_container, newWorkFragment, null);
+            replaceFragment(R.id.fl_container, newWorkFragment, "newwork");
             fab.setVisibility(View.GONE);
         }
     }
@@ -96,7 +102,10 @@ public class ContainerActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+    }
 
+    public void setToolbarTitle(String title){
+        mToolbar.setTitle(title);
     }
 
     @Override
@@ -109,27 +118,48 @@ public class ContainerActivity extends BaseActivity {
         } else if (viewID == ConstUtil.KEY_FRAGMENT_NEW_WORK) {
             menu.getItem(0).setTitle(getString(R.string.text_complete));
         }
+
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (viewID == ConstUtil.KEY_FRAGMENT_START_WORK) {
+        //if (item.getItemId() == android.R.id.home){
+            if (viewID == ConstUtil.KEY_FRAGMENT_START_WORK) {
 
-        } else if (viewID == ConstUtil.KEY_FRAGMENT_HISTORY_WORK) {
-            // TODO: 2017/5/10
+            } else if (viewID == ConstUtil.KEY_FRAGMENT_HISTORY_WORK) {
+                // TODO: 2017/5/10
 
-        } else if (viewID == ConstUtil.KEY_FRAGMENT_NEW_WORK) {
+            } else if (viewID == ConstUtil.KEY_FRAGMENT_NEW_WORK) {
+            }
+        //}
 
+        if(item.getItemId() == android.R.id.home){
+            if (mToolbar.getTitle().toString().equals("历史作业")||mToolbar.getTitle().toString().equals("开始作业")){
+                finish();
+            }else{
+               getSupportFragmentManager().popBackStack();
+            }
         }
-        return super.onOptionsItemSelected(item);
+
+        return true;
     }
+
 
     @OnClick(R.id.fab)
     public void onClick() {
         FragmentNextEvent next = new FragmentNextEvent();
         next.setViewId(ConstUtil.KEY_FRAGMENT_NEW_WORK);
-
         EventBus.getDefault().post(next);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mToolbar.getTitle().toString().equals("历史作业")||mToolbar.getTitle().toString().equals("开始作业")){
+            finish();
+        }else{
+            getSupportFragmentManager().popBackStack();
+        }
     }
 }

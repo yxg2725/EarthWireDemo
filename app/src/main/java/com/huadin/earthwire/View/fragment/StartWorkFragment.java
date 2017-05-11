@@ -1,13 +1,19 @@
 package com.huadin.earthwire.View.fragment;
 
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.huadin.earthwire.R;
+import com.huadin.earthwire.View.activity.ContainerActivity;
 import com.huadin.earthwire.View.adapter.WorkAdapter;
 import com.huadin.earthwire.View.base.BaseFragment;
 
 import butterknife.BindView;
+
+import static com.huadin.earthwire.R.id.fab;
 
 /**
  * 开始作业Fragment
@@ -36,5 +42,12 @@ public class StartWorkFragment extends BaseFragment {
     @Override
     public void initData() {
         stateLayout.showContentView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((ContainerActivity)getActivity()).setToolbarTitle("开始作业");
+        ((ContainerActivity)getActivity()).fab.setVisibility(View.VISIBLE);
     }
 }

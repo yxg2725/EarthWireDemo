@@ -1,11 +1,15 @@
 package com.huadin.earthwire.View.fragment;
 
+import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.huadin.earthwire.R;
+import com.huadin.earthwire.View.activity.ContainerActivity;
 import com.huadin.earthwire.View.base.BaseFragment;
 
 import butterknife.BindView;
+
+import static android.R.attr.tag;
 
 /**
  * Created by Jack Zhang on 2017/5/11.
@@ -33,5 +37,10 @@ public class NewWorkFragment extends BaseFragment {
     @Override
     public void initData() {
         stateLayout.showContentView();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((ContainerActivity)getActivity()).setToolbarTitle("新建作业");
     }
 }
