@@ -2,7 +2,6 @@ package com.huadin.earthwire.View.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -79,7 +78,6 @@ public class ContainerActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        initToolBar(mToolbar,true,"");
     }
 
     @Subscribe
@@ -97,55 +95,68 @@ public class ContainerActivity extends BaseActivity {
 
     @Override
     protected void initlistener() {
-
     }
 
     @Override
     protected void initData() {
     }
 
-    public void setToolbarTitle(String title){
+    /**
+     * 设置标题栏右侧按钮
+     */
+    public void setToolbarMenu(String title, boolean visible) {
+        mToolbar.getMenu().findItem(R.id.title_right_button).setVisible(visible);
+        if (visible) {
+            mToolbar.getMenu().findItem(R.id.title_right_button).setTitle(title);
+        }
+    }
+
+    /**
+     * 设置标题栏文字
+     */
+    public void setToolbarTitle(String title) {
         mToolbar.setTitle(title);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_tool_bar_button, menu);
+
         if (viewID == ConstUtil.KEY_FRAGMENT_START_WORK) {
-            menu.setGroupVisible(0, false);
+            //            menu.setGroupVisible(0, false);
         } else if (viewID == ConstUtil.KEY_FRAGMENT_HISTORY_WORK) {
             menu.getItem(0).setTitle(getString(R.string.text_filtrate));
         } else if (viewID == ConstUtil.KEY_FRAGMENT_NEW_WORK) {
             menu.getItem(0).setTitle(getString(R.string.text_complete));
         }
 
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //if (item.getItemId() == android.R.id.home){
-            if (viewID == ConstUtil.KEY_FRAGMENT_START_WORK) {
+        if (viewID == ConstUtil.KEY_FRAGMENT_START_WORK) {
 
-            } else if (viewID == ConstUtil.KEY_FRAGMENT_HISTORY_WORK) {
-                // TODO: 2017/5/10
+        } else if (viewID == ConstUtil.KEY_FRAGMENT_HISTORY_WORK) {
+            // TODO: 2017/5/10
 
-            } else if (viewID == ConstUtil.KEY_FRAGMENT_NEW_WORK) {
-            }
-        //}
+        } else if (viewID == ConstUtil.KEY_FRAGMENT_NEW_WORK) {
 
-        if(item.getItemId() == android.R.id.home){
-            if (mToolbar.getTitle().toString().equals("历史作业")||mToolbar.getTitle().toString().equals("开始作业")){
-                finish();
-            }else{
-               getSupportFragmentManager().popBackStack();
-            }
+        }
+
+        if (item.getItemId() == android.R.id.home) {
+            exit();
         }
 
         return true;
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.title_right_button).setVisible(viewID != ConstUtil.KEY_FRAGMENT_START_WORK);
+        return super.onPrepareOptionsMenu(menu);
+    }
 
     @OnClick(R.id.fab)
     public void onClick() {
@@ -156,9 +167,13 @@ public class ContainerActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (mToolbar.getTitle().toString().equals("历史作业")||mToolbar.getTitle().toString().equals("开始作业")){
+        exit();
+    }
+
+    private void exit() {
+        if (mToolbar.getTitle().toString().equals("历史作业") || mToolbar.getTitle().toString().equals("开始作业")) {
             finish();
-        }else{
+        } else {
             getSupportFragmentManager().popBackStack();
         }
     }

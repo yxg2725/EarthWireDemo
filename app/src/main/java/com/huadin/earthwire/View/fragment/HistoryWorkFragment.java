@@ -1,15 +1,10 @@
 package com.huadin.earthwire.View.fragment;
 
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.huadin.earthwire.R;
 import com.huadin.earthwire.View.activity.ContainerActivity;
 import com.huadin.earthwire.View.base.BaseFragment;
-
-import static com.huadin.earthwire.R.id.fab;
 
 /**
  * Created by Jack Zhang on 2017/5/11.
@@ -33,11 +28,16 @@ public class HistoryWorkFragment extends BaseFragment {
     }
 
 
-
     @Override
     public void onResume() {
         super.onResume();
-        ((ContainerActivity)getActivity()).setToolbarTitle("历史作业");
-        ((ContainerActivity)getActivity()).fab.setVisibility(View.GONE);
+        ((ContainerActivity) getActivity()).setToolbarTitle("历史作业");
+        ((ContainerActivity) getActivity()).fab.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((ContainerActivity)getActivity()).setToolbarMenu("", true);
     }
 }
