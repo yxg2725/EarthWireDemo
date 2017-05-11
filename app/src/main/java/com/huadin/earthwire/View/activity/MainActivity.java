@@ -74,6 +74,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     protected void initView() {
+
         initToolBar(mToolbar, true, "地线管理");
         initDrawLayout();
         mSparseTags.put(R.id.nav_earthwork, "earthwork");
@@ -111,6 +112,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void initData() {
     }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

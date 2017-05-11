@@ -1,13 +1,20 @@
 package com.huadin.earthwire.View.base;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.huadin.earthwire.Utils.ToastUtils;
 
@@ -19,19 +26,38 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
 
-
+  private static final int REQUEST_PERMISSION_LOCATION = 1;
+  private static final int REQUEST_PERMISSION_READ_PHONE_STATE = 2;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getlayoutId());
         ButterKnife.bind(this);
 
+        requestPermissions();
+
         initView();
         initlistener();
         initData();
     }
 
-    /**
+  private void requestPermissions() {
+    //动态申请权限
+    if(Build.VERSION.SDK_INT >=23){
+
+      //定位权限
+      if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},REQUEST_PERMISSION_LOCATION);
+      }
+      //读取手机状态
+      if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},REQUEST_PERMISSION_READ_PHONE_STATE);
+      }
+
+    }
+  }
+
+  /**
      * 初始化 Toolbar
      *
      * @param toolbar
