@@ -18,6 +18,8 @@ import com.huadin.earthwire.Utils.ConstUtil;
 import com.huadin.earthwire.View.base.BaseActivity;
 import com.huadin.earthwire.View.fragment.EarthWireWorkFragment;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -119,8 +121,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             replaceFragment(R.id.fl_container, new EarthWireWorkFragment(), mSparseTags.get(R.id.nav_earthwork));
         } else if (id == R.id.nav_history_earthwork) {//历史作业
             Bundle bundle = new Bundle();
-            bundle.putString(ConstUtil.KEY_FROM_WHAT_TO_WORK_ACTIVITY, ConstUtil.KEY_HISTORY_WORK);
-            startToActivity(bundle, WorkActivity.class);
+            bundle.putInt(ConstUtil.KEY_FRAGMENT_ID, ConstUtil.KEY_FRAGMENT_HISTORY_WORK);
+            startToActivity(bundle, ContainerActivity.class);
         } else if (id == R.id.nav_pole_collection) {//杆塔采集
             showToast("杆塔采集");
         } else if (id == R.id.nav_pole_import) {//杆塔导入
@@ -145,4 +147,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

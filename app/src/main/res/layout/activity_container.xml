@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.huadin.earthwire.View.activity.ContainerActivity">
+
+    <include
+        layout="@layout/app_bar_main"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="@dimen/dp10"
+        android:layout_marginRight="@dimen/dp10"
+        android:src="@mipmap/nodata"
+        android:visibility="gone"
+        app:backgroundTint="@color/colorPrimary"/>
+
+</FrameLayout>

@@ -5,7 +5,9 @@ package com.huadin.earthwire.Utils;
  */
 
 public class ConstUtil {
-    public static final String KEY_FROM_WHAT_TO_WORK_ACTIVITY = "KEY_FROM_WHAT_TO_WORK_ACTIVITY";
-    public static final String KEY_HISTORY_WORK = "KEY_HISTORY_WORK";
-    public static final String KEY_START_WORK = "KEY_START_WORK";
+
+    public static final String KEY_FRAGMENT_ID = "KEY_VIEW_ID";
+    public static final int KEY_FRAGMENT_START_WORK = 1;
+    public static final int KEY_FRAGMENT_HISTORY_WORK = 2;
+    public static final int KEY_FRAGMENT_NEW_WORK = 3;
 }

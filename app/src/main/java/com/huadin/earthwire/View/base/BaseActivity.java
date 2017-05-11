@@ -89,6 +89,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         ToastUtils.showToast(this, msg);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     /**
      * 布局文件
      */

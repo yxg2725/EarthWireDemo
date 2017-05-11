@@ -1,5 +1,6 @@
 package com.huadin.earthwire.View.adapter;
 
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,6 @@ import android.widget.TextView;
 import com.huadin.earthwire.R;
 import com.huadin.earthwire.Utils.DateUtil;
 import com.huadin.earthwire.Utils.DialogUtils;
-import com.huadin.earthwire.View.activity.WorkActivity;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 /**
@@ -18,16 +18,15 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 public class WorkAdapter extends RecyclerView.Adapter {
     private int num;
-    private WorkActivity workActivity;
+    private Activity activity;
 
-    public WorkAdapter(WorkActivity workActivity, int num) {
+    public WorkAdapter(Activity activity, int num) {
         this.num = num;
-        this.workActivity = workActivity;
+        this.activity = activity;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_work, parent, false);
         return new MyViewHolder(itemView);
     }
@@ -89,7 +88,7 @@ public class WorkAdapter extends RecyclerView.Adapter {
                     break;
                 case R.id.btn_expect://预计时间
 
-                    DialogUtils.showTimePickerDialog(workActivity, new DialogUtils.TimeSelectListener() {
+                    DialogUtils.showTimePickerDialog(activity, new DialogUtils.TimeSelectListener() {
                         @Override
                         public void onSetTime(TimePickerDialog view, int hourOfDay, int minute, int second) {
                             String hourResult = String.format("%02d", hourOfDay);

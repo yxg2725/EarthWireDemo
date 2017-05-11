@@ -55,4 +55,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.+'
     apt 'com.google.dagger:dagger-compiler:2.6'
+    /*eventBus*/
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

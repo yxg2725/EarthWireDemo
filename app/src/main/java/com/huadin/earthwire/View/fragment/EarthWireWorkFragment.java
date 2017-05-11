@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import com.huadin.earthwire.R;
 import com.huadin.earthwire.Utils.ConstUtil;
-import com.huadin.earthwire.View.activity.WorkActivity;
+import com.huadin.earthwire.View.activity.ContainerActivity;
 import com.huadin.earthwire.View.base.BaseFragment;
 
 import butterknife.BindView;
@@ -14,7 +14,6 @@ import butterknife.OnClick;
 /**
  * 当前作业Fragment
  */
-
 public class EarthWireWorkFragment extends BaseFragment {
 
     @BindView(R.id.tv_start_work)
@@ -49,7 +48,7 @@ public class EarthWireWorkFragment extends BaseFragment {
     @OnClick(R.id.tv_start_work)
     public void onClick() {
         Bundle bundle = new Bundle();
-        bundle.putString(ConstUtil.KEY_FROM_WHAT_TO_WORK_ACTIVITY, ConstUtil.KEY_START_WORK);
-        startToActivity(bundle, WorkActivity.class);
+        bundle.putInt(ConstUtil.KEY_FRAGMENT_ID, ConstUtil.KEY_FRAGMENT_START_WORK);
+        startToActivity(bundle, ContainerActivity.class);
     }
 }

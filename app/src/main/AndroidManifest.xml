@@ -31,11 +31,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="WzODzmP3Vt4X86G7n7t43XG9w3O86vy3"/>
-
 
         <activity
             android:name=".View.activity.LoginActivity"
@@ -52,7 +50,6 @@
         <activity
             android:name=".View.activity.MainActivity"
             android:launchMode="singleTask"/>
-        <activity android:name=".View.activity.WorkActivity"/>
 
         <service
             android:name="com.baidu.location.f"
@@ -60,7 +57,9 @@
             android:process=":remote">
         </service>
 
-        <activity android:name=".View.activity.NewWorkActivity">
+        <activity
+            android:name=".View.activity.ContainerActivity"
+            android:launchMode="singleTask">
         </activity>
     </application>
 
