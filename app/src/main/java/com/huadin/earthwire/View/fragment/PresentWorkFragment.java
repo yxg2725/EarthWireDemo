@@ -1,11 +1,11 @@
 package com.huadin.earthwire.View.fragment;
 
-import android.os.Bundle;
+import android.content.Intent;
 import android.widget.TextView;
 
 import com.huadin.earthwire.R;
-import com.huadin.earthwire.Utils.ConstUtil;
-import com.huadin.earthwire.View.activity.ContainerActivity;
+import com.huadin.earthwire.View.activity.MainActivity;
+import com.huadin.earthwire.View.activity.StartWorkActivity;
 import com.huadin.earthwire.View.base.BaseFragment;
 
 import butterknife.BindView;
@@ -29,6 +29,11 @@ public class PresentWorkFragment extends BaseFragment {
         initMapView();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)activity).mToolbar.setTitle("地线管理");
+    }
 
     @Override
     public void initData() {
@@ -47,8 +52,20 @@ public class PresentWorkFragment extends BaseFragment {
 
     @OnClick(R.id.tv_start_work)
     public void onClick() {
-        Bundle bundle = new Bundle();
-        bundle.putInt(ConstUtil.KEY_FRAGMENT_ID, ConstUtil.KEY_FRAGMENT_START_WORK);
-        startToActivity(bundle, ContainerActivity.class);
+
+        //跳转到开始作业界面
+        ((MainActivity)getActivity())
+                .startActivity(new Intent(getActivity(),StartWorkActivity.class));
+
+    }
+
+    @Override
+    public void success(Object o) {
+
+    }
+
+    @Override
+    public void failed(String msg) {
+
     }
 }

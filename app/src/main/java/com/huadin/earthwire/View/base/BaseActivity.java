@@ -87,7 +87,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      * @param containerViewId
      * @param fragment
      */
-    protected void replaceFragment(int containerViewId, Fragment fragment, String tag) {
+    public void replaceFragment(int containerViewId, Fragment fragment, String tag) {
         if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             // 设置tag

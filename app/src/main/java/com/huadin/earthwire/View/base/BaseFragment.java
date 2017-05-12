@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,22 +33,22 @@ import butterknife.ButterKnife;
  * Created by 华电 on 2017/4/26.
  */
 
-public abstract class BaseFragment extends Fragment implements StateLayout.OnReloadListener, BDLocationListener {
+public abstract class BaseFragment extends Fragment implements StateLayout.OnReloadListener, BDLocationListener,BaseView {
     @Nullable
     @BindView(R.id.mapview)
     MapView mMapview;
-    protected Context mContext;
     protected StateLayout stateLayout;//复用Fragment的View对象
     private BaiduMap mBaiduMap;
     private LocationClient mLocClient;
     private LatLng myLocation;
     private boolean isFirstLoc = true;
+    public FragmentActivity activity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mContext = getActivity();
+        activity = getActivity();
     }
 
     @Nullable
@@ -85,11 +86,11 @@ public abstract class BaseFragment extends Fragment implements StateLayout.OnRel
     }
 
     protected void showToast(String msg) {
-        ToastUtils.showToast(mContext, msg);
+        ToastUtils.showToast(activity, msg);
     }
 
     protected void startToActivity(Bundle bundle, Class clazz) {
-        Intent intent = new Intent(mContext, clazz);
+        Intent intent = new Intent(activity, clazz);
         if (bundle != null) {
             intent.putExtras(bundle);
         }
@@ -113,7 +114,7 @@ public abstract class BaseFragment extends Fragment implements StateLayout.OnRel
         // 开启定位图层
         mBaiduMap.setMyLocationEnabled(true);
         // 定位初始化
-        mLocClient = new LocationClient(mContext);
+        mLocClient = new LocationClient(activity);
         mLocClient.registerLocationListener(this);
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);

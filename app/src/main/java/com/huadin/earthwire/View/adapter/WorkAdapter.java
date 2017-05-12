@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.huadin.earthwire.Model.dao.bean.Project;
 import com.huadin.earthwire.Model.dao.bean.WorkName;
 import com.huadin.earthwire.R;
 import com.huadin.earthwire.Utils.DateUtil;
@@ -20,12 +21,12 @@ import java.util.List;
  */
 
 public class WorkAdapter extends RecyclerView.Adapter {
-    private int num;
-    private Activity activity;
 
-    public WorkAdapter(Activity activity, int num) {
-        this.num = num;
+    private final Activity activity;
+    private List<Project> workNameList;
+    public WorkAdapter(Activity activity,List<Project> workNameList) {
         this.activity = activity;
+        this.workNameList = workNameList;
     }
 
     @Override
@@ -42,12 +43,7 @@ public class WorkAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return num;
-    }
-
-    public void setItemCount(int num) {
-        this.num = num;
-        notifyDataSetChanged();
+        return workNameList == null?0:workNameList.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

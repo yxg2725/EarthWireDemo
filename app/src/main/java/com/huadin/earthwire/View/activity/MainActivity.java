@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.huadin.earthwire.R;
 import com.huadin.earthwire.Utils.ConstUtil;
 import com.huadin.earthwire.View.base.BaseActivity;
+import com.huadin.earthwire.View.fragment.HistoryWorkFragment;
 import com.huadin.earthwire.View.fragment.PresentWorkFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -25,7 +26,7 @@ import butterknife.BindView;
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    public Toolbar mToolbar;
     @BindView(R.id.nav_view)
     NavigationView mNavView;
     @BindView(R.id.drawer_layout)
@@ -50,12 +51,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             mNavView.setCheckedItem(mSparseTags.keyAt(mSparseTags.indexOfValue(tagName)));
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // getMenuInflater().inflate(R.menu.main, menu);
-        return true;
     }
 
     @Override
@@ -117,15 +112,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        item.setChecked(true);
         mDrawerLayout.closeDrawer(GravityCompat.START);
         int id = item.getItemId();
         if (id == R.id.nav_earthwork) {//当前作业
             replaceFragment(R.id.fl_container, new PresentWorkFragment(), mSparseTags.get(R.id.nav_earthwork));
         } else if (id == R.id.nav_history_earthwork) {//历史作业
-            Bundle bundle = new Bundle();
-            bundle.putInt(ConstUtil.KEY_FRAGMENT_ID, ConstUtil.KEY_FRAGMENT_HISTORY_WORK);
-            startToActivity(bundle, ContainerActivity.class);
+            replaceFragment(R.id.fl_container, new HistoryWorkFragment(), mSparseTags.get(R.id.nav_history_earthwork));
         } else if (id == R.id.nav_pole_collection) {//杆塔采集
+            mNavView.setCheckedItem(R.id.nav_pole_collection);
             showToast("杆塔采集");
         } else if (id == R.id.nav_pole_import) {//杆塔导入
             showToast("杆塔导入");
