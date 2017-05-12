@@ -5,7 +5,8 @@
               android:background="@android:color/white"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <!--开始时间-->
+
+    <!--工程队名称-->
     <LinearLayout
         android:layout_marginTop="5dp"
         android:padding="5dp"
@@ -13,7 +14,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:text="开始时间："
+            android:text="工程队名称："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Spinner
+            android:layout_weight="1"
+            android:entries="@array/project_team"
+            android:id="@+id/sp_Project_team_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <!--开始日期-->
+    <LinearLayout
+        android:padding="5dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="开始日期："
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
@@ -34,24 +54,6 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
-
-    <!--工程队名称-->
-    <LinearLayout
-        android:padding="5dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="工程队名称："
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Spinner
-            android:layout_weight="1"
-            android:id="@+id/sp_Project_team_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
     <!--作业名称-->
     <LinearLayout
         android:padding="5dp"

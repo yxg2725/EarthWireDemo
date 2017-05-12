@@ -15,6 +15,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.R.attr.data;
+
 /**
  * Created by 华电 on 2017/5/12.
  */
@@ -34,12 +36,11 @@ public class DetailWorkActivity extends BaseActivity {
 
   @Override
   protected void initView() {
-    /*Intent intent = getIntent();
-    Bundle bundle = intent.getExtras();
-    Project project = (Project) bundle.getSerializable("project");*/
-
-    //initToolBar(mToolbar,true,project.getWorkName());
-    initToolBar(mToolbar,true,"工程名");
+    Intent intent = getIntent();
+    String workName = intent.getStringExtra("workName");
+    String teamHead = intent.getStringExtra("teamHead");
+    String phone = intent.getStringExtra("phone");
+    initToolBar(mToolbar,true,workName);
   }
 
   @Override

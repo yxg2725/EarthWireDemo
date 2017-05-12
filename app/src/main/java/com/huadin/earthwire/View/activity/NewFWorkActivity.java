@@ -62,24 +62,20 @@ public class NewFWorkActivity extends BaseActivity {
     String teamHead = mEtBuildTeamHead.getText().toString();
     String phone = mEtPhone.getText().toString();
 
-    Project project = new Project();
-    project.setWorkName(workName);
-    project.setProjectHead(teamHead);
-    project.setHeadPhone(phone);
 
     switch(item.getItemId()){
       case R.id.title_right_button:
-        returnStartFragment(project);//返回开始作业界面
+        returnStartFragment(workName,teamHead,phone);//返回开始作业界面
         break;
     }
     return super.onOptionsItemSelected(item);
   }
 
-  private void returnStartFragment(Project project) {
+  private void returnStartFragment(String workName,String teamHead,String phone) {
     Intent intent = new Intent();
-    Bundle bundle = new Bundle();
-    bundle.putSerializable("project",project);
-    intent.putExtras(bundle);
+    intent.putExtra("workName",workName);
+    intent.putExtra("teamHead",teamHead);
+    intent.putExtra("phone",phone);
     setResult(RESULT_NEWWORK,intent);
     finish();
   }

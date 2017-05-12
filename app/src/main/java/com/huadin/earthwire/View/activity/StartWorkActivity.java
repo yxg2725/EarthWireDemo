@@ -18,6 +18,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.baidu.mapapi.BMapManager.getContext;
+import static com.huadin.earthwire.R.string.phone;
 
 /**
  * Created by 华电 on 2017/5/12.
@@ -72,19 +73,17 @@ public class StartWorkActivity extends BaseActivity {
     super.onActivityResult(requestCode, resultCode, data);
     if(requestCode==REQUEST_NEWWORK ){
 
-      //bundle== null ???
-      /*Bundle bundle = data.getExtras();
-      Project project = (Project) bundle.getSerializable("project");
-      if(project != null){
-        projectList.add(project);
-      }*/
+      String workName = data.getStringExtra("workName");
+      String teamHead = data.getStringExtra("teamHead");
+      String phone = data.getStringExtra("phone");
+      //projectList.add(project);
 
       //重新展示下界面
 
       //跳转到作业中界面
-      Intent intent = new Intent(this,DetailWorkActivity.class);
       //intent.putExtras(bundle);
-      startActivity(intent);
+      data.setClass(this,DetailWorkActivity.class);
+      startActivity(data);
     }
   }
 
