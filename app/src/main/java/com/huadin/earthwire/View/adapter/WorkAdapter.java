@@ -7,10 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.huadin.earthwire.Model.dao.bean.WorkName;
 import com.huadin.earthwire.R;
 import com.huadin.earthwire.Utils.DateUtil;
 import com.huadin.earthwire.Utils.DialogUtils;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
+import java.util.List;
 
 /**
  * Created by 华电 on 2017/4/27.

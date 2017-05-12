@@ -49,4 +49,5 @@ public class NewWorkFragment extends BaseFragment {
         super.onStop();
         ((ContainerActivity)getActivity()).setToolbarMenu("", true);
     }
+
 }

@@ -1,29 +1,48 @@
 package com.huadin.earthwire.View.activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.huadin.earthwire.Model.dao.DaoManager;
+import com.huadin.earthwire.Model.dao.DaoSession;
+import com.huadin.earthwire.Model.dao.WorkNameDao;
+import com.huadin.earthwire.Model.dao.bean.WorkName;
+import com.huadin.earthwire.Presenter.activity.ContainerActivityPresenter;
+import com.huadin.earthwire.Presenter.activity.LoginActivityPresenter;
 import com.huadin.earthwire.R;
 import com.huadin.earthwire.Utils.ConstUtil;
 import com.huadin.earthwire.View.base.BaseActivity;
 import com.huadin.earthwire.View.fragment.HistoryWorkFragment;
 import com.huadin.earthwire.View.fragment.NewWorkFragment;
 import com.huadin.earthwire.View.fragment.StartWorkFragment;
+import com.huadin.earthwire.View.widget.FilterDialog;
+import com.huadin.earthwire.dagger.conponent.DaggerCommonConponent;
+import com.huadin.earthwire.dagger.module.PresenterModule;
 import com.huadin.earthwire.event.FragmentNextEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.greendao.query.QueryBuilder;
+
+import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 
 public class ContainerActivity extends BaseActivity {
+
+    @Inject
+    ContainerActivityPresenter containerPresenter;
 
     @BindView(R.id.toolbar)
     public Toolbar mToolbar;
@@ -37,10 +56,14 @@ public class ContainerActivity extends BaseActivity {
     StartWorkFragment startWorkFragment;
     HistoryWorkFragment historyWorkFragment;
     NewWorkFragment newWorkFragment;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        DaggerCommonConponent.builder()
+                .presenterModule(new PresenterModule(this)).build().in(this);
 
         EventBus.getDefault().register(this);
     }
@@ -52,6 +75,7 @@ public class ContainerActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        dialog = new ProgressDialog(this);
         viewID = getIntent().getExtras().getInt(ConstUtil.KEY_FRAGMENT_ID);
         switch (viewID) {
             case 0:
@@ -147,6 +171,20 @@ public class ContainerActivity extends BaseActivity {
 
         if (item.getItemId() == android.R.id.home) {
             exit();
+        }else if(item.getItemId() == R.id.title_right_button && item.getTitle().equals(getString(R.string.text_filtrate)) ){
+            //弹出对话框
+            final FilterDialog filterDialog = new FilterDialog(this);
+            filterDialog.setOnSerachListener(new FilterDialog.OnSearchListener() {
+                @Override
+                public void onsearchCallback(String startTime, String projectname, String workname) {
+                    filterDialog.dismiss();
+                    showToast("选择了条件开始查询");
+                    dialog.show();
+                    containerPresenter.query(startTime,projectname,workname);
+                }
+            });
+            filterDialog.setCancelable(false);
+            filterDialog.show();
         }
 
         return true;
@@ -176,5 +214,12 @@ public class ContainerActivity extends BaseActivity {
         } else {
             getSupportFragmentManager().popBackStack();
         }
+    }
+
+    @Override
+    public void success(Object o) {
+        dialog.dismiss();
+        List<WorkName> workNameList = (List<WorkName>) o;
+        EventBus.getDefault().post(workNameList);
     }
 }

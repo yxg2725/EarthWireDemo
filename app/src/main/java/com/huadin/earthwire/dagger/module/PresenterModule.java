@@ -1,6 +1,8 @@
 package com.huadin.earthwire.dagger.module;
 
+import com.huadin.earthwire.Presenter.activity.ContainerActivityPresenter;
 import com.huadin.earthwire.Presenter.activity.LoginActivityPresenter;
+import com.huadin.earthwire.View.activity.ContainerActivity;
 import com.huadin.earthwire.View.activity.LoginActivity;
 
 import dagger.Module;
@@ -13,9 +15,13 @@ import dagger.Provides;
 @Module
 public class PresenterModule {
     private LoginActivity loginActivity;
+    private ContainerActivity containerActivity;
 
     public PresenterModule(LoginActivity view) {
         this.loginActivity = view;
+    }
+    public PresenterModule(ContainerActivity view) {
+        this.containerActivity = view;
     }
 
 
@@ -27,6 +33,11 @@ public class PresenterModule {
     @Provides
     public LoginActivityPresenter provideLoginPresenter() {
         return new LoginActivityPresenter(loginActivity);
+    }
+
+    @Provides
+    public ContainerActivityPresenter provideContainerPresenter() {
+        return new ContainerActivityPresenter(containerActivity);
     }
 
 
