@@ -1,26 +1,10 @@
 package com.huadin.earthwire.View.fragment;
 
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
-import com.huadin.earthwire.Model.dao.bean.WorkName;
 import com.huadin.earthwire.R;
 import com.huadin.earthwire.View.activity.ContainerActivity;
-import com.huadin.earthwire.View.adapter.HistoryAdapter;
 import com.huadin.earthwire.View.base.BaseFragment;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created by Jack Zhang on 2017/5/11.
@@ -55,12 +39,11 @@ public class HistoryWorkFragment extends BaseFragment {
     mRecyclerview.setAdapter(adapter);
   }
 
-  @Override
-  public void onResume() {
-    super.onResume();
-    ((ContainerActivity) getActivity()).setToolbarTitle("历史作业");
-    ((ContainerActivity) getActivity()).fab.setVisibility(View.GONE);
-  }
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((ContainerActivity) getActivity()).setToolbarTitle("历史作业");
+    }
 
   @Override
   public void onStop() {

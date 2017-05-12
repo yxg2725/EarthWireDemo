@@ -14,14 +14,14 @@ import butterknife.OnClick;
 /**
  * 当前作业Fragment
  */
-public class EarthWireWorkFragment extends BaseFragment {
+public class PresentWorkFragment extends BaseFragment {
 
     @BindView(R.id.tv_start_work)
     TextView mTvStartWork;
 
     @Override
     public int getlayoutId() {
-        return R.layout.fragment_earth_wire_work;
+        return R.layout.fragment_present_work;
     }
 
     @Override

@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.huadin.earthwire.R;
 import com.huadin.earthwire.Utils.ConstUtil;
 import com.huadin.earthwire.View.base.BaseActivity;
-import com.huadin.earthwire.View.fragment.EarthWireWorkFragment;
+import com.huadin.earthwire.View.fragment.PresentWorkFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -94,7 +94,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         });
         // 侧拉菜单item点击事件 默认展示地线作业
         mNavView.setCheckedItem(R.id.nav_earthwork);
-        replaceFragment(R.id.fl_container, new EarthWireWorkFragment(), mSparseTags.get(R.id.nav_earthwork));
+        replaceFragment(R.id.fl_container, new PresentWorkFragment(), mSparseTags.get(R.id.nav_earthwork));
     }
 
     private void initDrawLayout() {
@@ -120,7 +120,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mDrawerLayout.closeDrawer(GravityCompat.START);
         int id = item.getItemId();
         if (id == R.id.nav_earthwork) {//当前作业
-            replaceFragment(R.id.fl_container, new EarthWireWorkFragment(), mSparseTags.get(R.id.nav_earthwork));
+            replaceFragment(R.id.fl_container, new PresentWorkFragment(), mSparseTags.get(R.id.nav_earthwork));
         } else if (id == R.id.nav_history_earthwork) {//历史作业
             Bundle bundle = new Bundle();
             bundle.putInt(ConstUtil.KEY_FRAGMENT_ID, ConstUtil.KEY_FRAGMENT_HISTORY_WORK);

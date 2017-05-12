@@ -5,21 +5,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.huadin.earthwire.R;
-import com.huadin.earthwire.Utils.ConstUtil;
-import com.huadin.earthwire.View.activity.ContainerActivity;
 import com.huadin.earthwire.View.adapter.WorkAdapter;
 import com.huadin.earthwire.View.base.BaseFragment;
-import com.huadin.earthwire.event.FragmentNextEvent;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * 开始作业Fragment
+ * 作业列表Fragment
  */
-public class StartWorkFragment extends BaseFragment {
+public class WorkListFragment extends BaseFragment {
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
@@ -28,7 +23,6 @@ public class StartWorkFragment extends BaseFragment {
 
     private int num = 1;
     private WorkAdapter mAdapter;
-    FragmentNextEvent next;// 界面跳转EventBus使用的Event
 
     @Override
     public int getlayoutId() {
@@ -50,15 +44,12 @@ public class StartWorkFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((ContainerActivity) getActivity()).setToolbarTitle("开始作业");
-        //        ((ContainerActivity)getActivity()).setToolbarMenu("", true);
+//        String name = getArguments().getString(ConstUtil.KEY_WORK_NAME);
+//        ((ContainerActivity) getActivity()).setToolbarTitle(name);
     }
 
     @OnClick(R.id.fab)
     public void onClick() {
-        next = new FragmentNextEvent();
-        next.setViewId(ConstUtil.KEY_FRAGMENT_NEW_WORK);
-        EventBus.getDefault().post(next);
         showToast("点击");
     }
 }

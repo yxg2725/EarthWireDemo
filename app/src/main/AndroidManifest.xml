@@ -61,6 +61,8 @@
             android:name=".View.activity.ContainerActivity"
             android:launchMode="singleTask">
         </activity>
+        <activity android:name=".View.activity.WorkActivity">
+        </activity>
     </application>
 
 </manifest>

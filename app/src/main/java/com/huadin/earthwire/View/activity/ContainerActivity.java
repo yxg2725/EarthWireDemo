@@ -57,6 +57,9 @@ public class ContainerActivity extends BaseActivity {
     HistoryWorkFragment historyWorkFragment;
     NewWorkFragment newWorkFragment;
     private ProgressDialog dialog;
+//    EarthWireFragment earthWireFragment;
+
+    FragmentNextEvent next;// 界面跳转EventBus使用的Event
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,14 +88,14 @@ public class ContainerActivity extends BaseActivity {
                 if (startWorkFragment == null) {
                     startWorkFragment = new StartWorkFragment();
                 }
-                initToolBar(mToolbar, true, "开始作业");
+                initToolBar(mToolbar, true, getString(R.string.title_start_work));
                 replaceFragment(R.id.fl_container, startWorkFragment, "startwork");
                 break;
             case ConstUtil.KEY_FRAGMENT_HISTORY_WORK:
                 if (historyWorkFragment == null) {
                     historyWorkFragment = new HistoryWorkFragment();
                 }
-                initToolBar(mToolbar, true, "历史作业");
+                initToolBar(mToolbar, true, getString(R.string.title_history_work));
                 replaceFragment(R.id.fl_container, historyWorkFragment, "history");
 
                 break;
@@ -106,14 +109,23 @@ public class ContainerActivity extends BaseActivity {
 
     @Subscribe
     public void fragmentOnEvent(FragmentNextEvent next) {
-        if (next.getViewId() == ConstUtil.KEY_FRAGMENT_NEW_WORK) {
-            viewID = ConstUtil.KEY_FRAGMENT_NEW_WORK;
-            if (newWorkFragment == null) {
-                newWorkFragment = new NewWorkFragment();
-            }
-            initToolBar(mToolbar, true, "新建作业");
-            replaceFragment(R.id.fl_container, newWorkFragment, "newwork");
-            fab.setVisibility(View.GONE);
+        switch (next.getViewId()) {
+            case ConstUtil.KEY_FRAGMENT_NEW_WORK:
+                viewID = ConstUtil.KEY_FRAGMENT_NEW_WORK;
+                if (newWorkFragment == null) {
+                    newWorkFragment = new NewWorkFragment();
+                }
+                initToolBar(mToolbar, true, getString(R.string.title_new_work));
+                replaceFragment(R.id.fl_container, newWorkFragment, "newwork");
+                break;
+
+//            case ConstUtil.KEY_FRAGMENT_EARTH_WIRE:
+//                viewID = ConstUtil.KEY_FRAGMENT_EARTH_WIRE;
+//                if (earthWireFragment == null) {
+//                    earthWireFragment = new EarthWireFragment();
+//                }
+//                initToolBar(mToolbar, true, getString(R.string.title_new_work));
+//                replaceFragment(R.id.fl_container, earthWireFragment, "earthwire");
         }
     }
 
@@ -153,7 +165,6 @@ public class ContainerActivity extends BaseActivity {
         } else if (viewID == ConstUtil.KEY_FRAGMENT_NEW_WORK) {
             menu.getItem(0).setTitle(getString(R.string.text_complete));
         }
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -166,7 +177,12 @@ public class ContainerActivity extends BaseActivity {
             // TODO: 2017/5/10
 
         } else if (viewID == ConstUtil.KEY_FRAGMENT_NEW_WORK) {
-
+            // 跳转到工程Activity
+            Bundle bundle = new Bundle();
+            bundle.putString(ConstUtil.KEY_WORK_NAME, "作业一");
+            bundle.putInt(ConstUtil.KEY_FRAGMENT_ID, ConstUtil.KEY_FRAGMENT_WORK_LIST);
+            startToActivity(bundle, WorkActivity.class);
+            getSupportFragmentManager().popBackStack();
         }
 
         if (item.getItemId() == android.R.id.home) {
@@ -196,20 +212,13 @@ public class ContainerActivity extends BaseActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    @OnClick(R.id.fab)
-    public void onClick() {
-        FragmentNextEvent next = new FragmentNextEvent();
-        next.setViewId(ConstUtil.KEY_FRAGMENT_NEW_WORK);
-        EventBus.getDefault().post(next);
-    }
-
     @Override
     public void onBackPressed() {
         exit();
     }
 
     private void exit() {
-        if (mToolbar.getTitle().toString().equals("历史作业") || mToolbar.getTitle().toString().equals("开始作业")) {
+        if (mToolbar.getTitle().toString().equals(getString(R.string.title_start_work)) || mToolbar.getTitle().toString().equals(getString(R.string.title_history_work))) {
             finish();
         } else {
             getSupportFragmentManager().popBackStack();

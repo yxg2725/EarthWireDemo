@@ -1,6 +1,5 @@
 package com.huadin.earthwire.View.fragment;
 
-import android.view.View;
 import android.widget.EditText;
 
 import com.huadin.earthwire.R;
@@ -41,7 +40,6 @@ public class NewWorkFragment extends BaseFragment {
         super.onResume();
         ((ContainerActivity)getActivity()).setToolbarTitle("新建作业");
         ((ContainerActivity)getActivity()).setToolbarMenu(getString(R.string.text_complete), true);
-        ((ContainerActivity)getActivity()).fab.setVisibility(View.GONE);
     }
 
     @Override
