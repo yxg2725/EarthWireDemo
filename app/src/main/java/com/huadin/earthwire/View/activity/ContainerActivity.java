@@ -2,20 +2,13 @@ package com.huadin.earthwire.View.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
 
-import com.huadin.earthwire.Model.dao.DaoManager;
-import com.huadin.earthwire.Model.dao.DaoSession;
-import com.huadin.earthwire.Model.dao.WorkNameDao;
 import com.huadin.earthwire.Model.dao.bean.WorkName;
 import com.huadin.earthwire.Presenter.activity.ContainerActivityPresenter;
-import com.huadin.earthwire.Presenter.activity.LoginActivityPresenter;
 import com.huadin.earthwire.R;
 import com.huadin.earthwire.Utils.ConstUtil;
 import com.huadin.earthwire.View.base.BaseActivity;
@@ -29,14 +22,12 @@ import com.huadin.earthwire.event.FragmentNextEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 
 public class ContainerActivity extends BaseActivity {
@@ -48,8 +39,6 @@ public class ContainerActivity extends BaseActivity {
     public Toolbar mToolbar;
     @BindView(R.id.fl_container)
     FrameLayout flContainer;
-    @BindView(R.id.fab)
-    public FloatingActionButton fab;
 
     private int viewID;
 
@@ -57,9 +46,6 @@ public class ContainerActivity extends BaseActivity {
     HistoryWorkFragment historyWorkFragment;
     NewWorkFragment newWorkFragment;
     private ProgressDialog dialog;
-//    EarthWireFragment earthWireFragment;
-
-    FragmentNextEvent next;// 界面跳转EventBus使用的Event
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,14 +104,6 @@ public class ContainerActivity extends BaseActivity {
                 initToolBar(mToolbar, true, getString(R.string.title_new_work));
                 replaceFragment(R.id.fl_container, newWorkFragment, "newwork");
                 break;
-
-//            case ConstUtil.KEY_FRAGMENT_EARTH_WIRE:
-//                viewID = ConstUtil.KEY_FRAGMENT_EARTH_WIRE;
-//                if (earthWireFragment == null) {
-//                    earthWireFragment = new EarthWireFragment();
-//                }
-//                initToolBar(mToolbar, true, getString(R.string.title_new_work));
-//                replaceFragment(R.id.fl_container, earthWireFragment, "earthwire");
         }
     }
 
@@ -187,7 +165,7 @@ public class ContainerActivity extends BaseActivity {
 
         if (item.getItemId() == android.R.id.home) {
             exit();
-        }else if(item.getItemId() == R.id.title_right_button && item.getTitle().equals(getString(R.string.text_filtrate)) ){
+        } else if (item.getItemId() == R.id.title_right_button && item.getTitle().equals(getString(R.string.text_filtrate))) {
             //弹出对话框
             final FilterDialog filterDialog = new FilterDialog(this);
             filterDialog.setOnSerachListener(new FilterDialog.OnSearchListener() {
@@ -196,7 +174,7 @@ public class ContainerActivity extends BaseActivity {
                     filterDialog.dismiss();
                     showToast("选择了条件开始查询");
                     dialog.show();
-                    containerPresenter.query(startTime,projectname,workname);
+                    containerPresenter.query(startTime, projectname, workname);
                 }
             });
             filterDialog.setCancelable(false);

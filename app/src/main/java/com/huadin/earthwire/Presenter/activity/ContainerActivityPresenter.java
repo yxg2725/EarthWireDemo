@@ -17,24 +17,25 @@ import java.util.List;
  */
 
 public class ContainerActivityPresenter {
-  private final ContainerActivity containerActivity;
-  public ContainerActivityPresenter(ContainerActivity containerActivity) {
-    this.containerActivity = containerActivity;
-  }
+    private final ContainerActivity containerActivity;
 
-  public void query(String startTime, String projectname, String workname) {
-    //查询数据库
-    DaoSession daoSession = DaoManager.getInstance().getDaoSession();
-    WorkNameDao workNameDao = daoSession.getWorkNameDao();
-    QueryBuilder<WorkName> where = workNameDao.queryBuilder()
-            .where(WorkNameDao.Properties.ProjectName.eq(projectname)//工程队名
-                    , WorkNameDao.Properties.StartTime.eq(startTime));//开始时间
-    if(!TextUtils.isEmpty(workname)){
-      where = where.where(WorkNameDao.Properties.WorkName.like(workname));//作业名称
+    public ContainerActivityPresenter(ContainerActivity containerActivity) {
+        this.containerActivity = containerActivity;
     }
-    List<WorkName> workNameList = where.build().list();
-    if(workNameList != null && workNameList.size()>0){
-      containerActivity.success(workNameList);
+
+    public void query(String startTime, String projectname, String workname) {
+        //查询数据库
+        DaoSession daoSession = DaoManager.getInstance().getDaoSession();
+        WorkNameDao workNameDao = daoSession.getWorkNameDao();
+        QueryBuilder<WorkName> where = workNameDao.queryBuilder()
+                .where(WorkNameDao.Properties.ProjectName.eq(projectname)//工程队名
+                        , WorkNameDao.Properties.StartTime.eq(startTime));//开始时间
+        if (!TextUtils.isEmpty(workname)) {
+            where = where.where(WorkNameDao.Properties.WorkName.like(workname));//作业名称
+        }
+        List<WorkName> workNameList = where.build().list();
+        if (workNameList != null && workNameList.size() > 0) {
+            containerActivity.success(workNameList);
+        }
     }
-  }
 }
