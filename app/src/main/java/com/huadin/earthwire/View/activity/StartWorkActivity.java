@@ -1,5 +1,6 @@
 package com.huadin.earthwire.View.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,18 +8,22 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.huadin.earthwire.Model.dao.bean.Project;
+import com.huadin.earthwire.Presenter.activity.StartWorkActivityPresenter;
 import com.huadin.earthwire.R;
-import com.huadin.earthwire.View.adapter.WorkAdapter;
+import com.huadin.earthwire.View.adapter.ProjectListAdapter;
 import com.huadin.earthwire.View.base.BaseActivity;
+import com.huadin.earthwire.dagger.conponent.DaggerCommonConponent;
+import com.huadin.earthwire.dagger.module.PresenterModule;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.baidu.mapapi.BMapManager.getContext;
-import static com.huadin.earthwire.R.string.phone;
 
 /**
  * Created by 华电 on 2017/5/12.
@@ -26,7 +31,9 @@ import static com.huadin.earthwire.R.string.phone;
 
 public class StartWorkActivity extends BaseActivity {
 
-  private static final int REQUEST_NEWWORK = 1;
+  @Inject
+  StartWorkActivityPresenter startWorkActivityPresenter;
+  public static final int REQUEST_NEWWORK = 1;
   @BindView(R.id.recyclerview)
   RecyclerView mRecyclerview;
   @BindView(R.id.fab)
@@ -34,7 +41,8 @@ public class StartWorkActivity extends BaseActivity {
   @BindView(R.id.toolbar)
   Toolbar mToolbar;
   private List<Project> projectList = new ArrayList<>();
-  private WorkAdapter mAdapter;
+  private ProjectListAdapter mAdapter;
+  private ProgressDialog dialog;
 
   @Override
   public int getlayoutId() {
@@ -43,11 +51,22 @@ public class StartWorkActivity extends BaseActivity {
 
   @Override
   protected void initView() {
-    initToolBar(mToolbar,true,"开始作业");
 
+    DaggerCommonConponent.builder()
+            .presenterModule(new PresenterModule(this)).build().in(this);
+
+    dialog = new ProgressDialog(this);
+
+    initToolBar(mToolbar, true, "开始作业");
     mRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
-    mAdapter = new WorkAdapter(this, projectList);
-    mRecyclerview.setAdapter(mAdapter);
+
+    if (mAdapter == null){
+      mAdapter = new ProjectListAdapter(this, projectList);
+      mRecyclerview.setAdapter(mAdapter);
+    }else{
+      mAdapter.notifyDataSetChanged();
+    }
+
   }
 
   @Override
@@ -57,35 +76,50 @@ public class StartWorkActivity extends BaseActivity {
 
   @Override
   protected void initData() {
+  }
 
+  @Override
+  protected void onResume() {
+    super.onResume();
+    //查询数据库获取当前的工程 并展示
+    dialog.show();
+    startWorkActivityPresenter.queryCurrentProject();
   }
 
   @OnClick(R.id.fab)
   public void onClick() {
 
     //跳转到新建工程界面
-    Intent intent = new Intent(this,NewFWorkActivity.class);
-    startActivityForResult(intent,REQUEST_NEWWORK);
+    Intent intent = new Intent(this, NewFWorkActivity.class);
+    startActivityForResult(intent, REQUEST_NEWWORK);
   }
 
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if(requestCode==REQUEST_NEWWORK ){
-
-      String workName = data.getStringExtra("workName");
-      String teamHead = data.getStringExtra("teamHead");
-      String phone = data.getStringExtra("phone");
-      //projectList.add(project);
-
-      //重新展示下界面
+    if (requestCode == REQUEST_NEWWORK) {
+      startWorkActivityPresenter.getResultData(requestCode,resultCode,data);
 
       //跳转到作业中界面
-      //intent.putExtras(bundle);
-      data.setClass(this,DetailWorkActivity.class);
+      data.setClass(this, DetailWorkActivity.class);
       startActivity(data);
     }
   }
 
+  @Override
+  public void success(Object o) {
+    super.success(o);
+    dialog.dismiss();
 
+    List<Project> list = (List<Project>) o;
+    projectList.clear();
+    projectList.addAll(list);
+
+    if (mAdapter == null){
+      mAdapter = new ProjectListAdapter(this, projectList);
+      mRecyclerview.setAdapter(mAdapter);
+    }else{
+      mAdapter.notifyDataSetChanged();
+    }
+  }
 }

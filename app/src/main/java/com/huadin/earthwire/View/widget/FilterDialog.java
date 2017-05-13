@@ -1,5 +1,6 @@
 package com.huadin.earthwire.View.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
@@ -8,6 +9,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.huadin.earthwire.R;
+import com.huadin.earthwire.Utils.Constant;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -28,10 +30,11 @@ public class FilterDialog extends BaseDialog {
   @BindView(R.id.btn_search)
   Button btnSearch;
   private String startTime;
-  private String projectname;
+  private Activity context;
 
-  public FilterDialog(Context context) {
+  public FilterDialog(Activity context) {
     super(context);
+    this.context = context;
   }
 
   @Override
@@ -43,16 +46,17 @@ public class FilterDialog extends BaseDialog {
   public void onViewClicked(View view) {
     switch (view.getId()) {
       case R.id.btn_start://获取开始时间
-        startTime = "";
+        new DateTimePickDialogUtil(context,0).dateTimePicKDialog(etStartTime);
+        startTime = etStartTime.getText().toString();
         break;
       case R.id.btn_search:
-        //获取工程名
-        projectname = "";
         //获取作业名称
         String workname = etWorkName.getText().toString();
+        int selectedID = spProjectTeamName.getSelectedItemPosition();
+        String projectTeamName = Constant.PROJECT_TEAM_NAMES[selectedID];
 
         if(onSearchListener != null){
-          onSearchListener.onsearchCallback(startTime,projectname,workname);
+          onSearchListener.onsearchCallback(startTime,projectTeamName,workname);
         }
         break;
     }

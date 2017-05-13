@@ -12,52 +12,44 @@ import org.greenrobot.greendao.annotation.Generated;
 public class ProjectTeam {
     @Id
     private Long id;
-    private String member;//成员人名
     private String projectName;//工程队名
-    private String memberPhone;//成员电话
-
+    private String projectHeadName;//工程队负责人名
+    private String projectHeadPhone;//工程队负责人电话
+    public String getProjectHeadPhone() {
+        return this.projectHeadPhone;
+    }
+    public void setProjectHeadPhone(String projectHeadPhone) {
+        this.projectHeadPhone = projectHeadPhone;
+    }
+    public String getProjectHeadName() {
+        return this.projectHeadName;
+    }
+    public void setProjectHeadName(String projectHeadName) {
+        this.projectHeadName = projectHeadName;
+    }
     public String getProjectName() {
         return this.projectName;
     }
-
     public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
-
-    public String getMember() {
-        return this.member;
-    }
-
-    public void setMember(String member) {
-        this.member = member;
-    }
-
     public Long getId() {
         return this.id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
-    public String getMemberPhone() {
-        return this.memberPhone;
-    }
-
-    public void setMemberPhone(String memberPhone) {
-        this.memberPhone = memberPhone;
-    }
-
-    @Generated(hash = 253270602)
-    public ProjectTeam(Long id, String member, String projectName,
-                       String memberPhone) {
+    @Generated(hash = 1758484694)
+    public ProjectTeam(Long id, String projectName, String projectHeadName,
+            String projectHeadPhone) {
         this.id = id;
-        this.member = member;
         this.projectName = projectName;
-        this.memberPhone = memberPhone;
+        this.projectHeadName = projectHeadName;
+        this.projectHeadPhone = projectHeadPhone;
     }
-
     @Generated(hash = 1463436963)
     public ProjectTeam() {
     }
+
+
 }

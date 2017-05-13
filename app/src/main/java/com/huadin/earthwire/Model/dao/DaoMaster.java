@@ -21,14 +21,18 @@ public class DaoMaster extends AbstractDaoMaster {
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
+        EarthWireDao.createTable(db, ifNotExists);
+        PersonDao.createTable(db, ifNotExists);
+        ProjectDao.createTable(db, ifNotExists);
         ProjectTeamDao.createTable(db, ifNotExists);
-        WorkNameDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
+        EarthWireDao.dropTable(db, ifExists);
+        PersonDao.dropTable(db, ifExists);
+        ProjectDao.dropTable(db, ifExists);
         ProjectTeamDao.dropTable(db, ifExists);
-        WorkNameDao.dropTable(db, ifExists);
     }
 
     /**
@@ -47,8 +51,10 @@ public class DaoMaster extends AbstractDaoMaster {
 
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
+        registerDaoClass(EarthWireDao.class);
+        registerDaoClass(PersonDao.class);
+        registerDaoClass(ProjectDao.class);
         registerDaoClass(ProjectTeamDao.class);
-        registerDaoClass(WorkNameDao.class);
     }
 
     public DaoSession newSession() {

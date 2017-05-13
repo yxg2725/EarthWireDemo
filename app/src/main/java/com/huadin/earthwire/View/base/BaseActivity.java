@@ -28,7 +28,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
   private static final int REQUEST_PERMISSION_LOCATION = 1;
   private static final int REQUEST_PERMISSION_READ_PHONE_STATE = 2;
-    @Override
+  private static final int REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 3;
+
+  @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getlayoutId());
@@ -52,6 +54,10 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
       //读取手机状态
       if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
         ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},REQUEST_PERMISSION_READ_PHONE_STATE);
+      }
+      //读写内存卡
+      if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_PERMISSION_READ_EXTERNAL_STORAGE);
       }
 
     }

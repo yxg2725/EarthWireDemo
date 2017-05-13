@@ -1,89 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
-              android:fitsSystemWindows="true"
-              android:background="@android:color/white"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-
-    <!--工程队名称-->
-    <LinearLayout
-        android:layout_marginTop="5dp"
-        android:padding="5dp"
-        android:orientation="horizontal"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="工程队名称："
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Spinner
-            android:layout_weight="1"
-            android:entries="@array/project_team"
-            android:id="@+id/sp_Project_team_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
-    </LinearLayout>
-
-    <!--开始日期-->
+    <!--姓名-->
     <LinearLayout
         android:padding="5dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:text="开始日期："
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:layout_weight="1"
-            android:id="@+id/et_start_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:elevation="5dp"
-            android:clickable="true"
-            android:padding="5dp"
-            android:textColor="@color/colorAccent"
-            android:id="@+id/btn_start"
-            android:text="选择"
-            android:background="@drawable/btn_bg_set"
-            android:layout_width="60dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-
-    <!--作业名称-->
-    <LinearLayout
-        android:padding="5dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="作业名称："
+            android:text="姓名："
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <EditText
+
+            android:gravity="right"
             android:layout_weight="1"
-            android:id="@+id/et_work_name"
+            android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-
     </LinearLayout>
-    <!--搜索-->
-    <FrameLayout
+   <!-- 所属工程队-->
+    <LinearLayout
         android:padding="5dp"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/btn_search"
-            android:text="搜索"
-            android:gravity="center"
-            android:layout_gravity="center"
+        <TextView
+            android:text="所属工程队："
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-
-    </FrameLayout>
+        <Spinner
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/et_project"
+            android:entries="@array/project_team"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <!--工程队负责人-->
+    <LinearLayout
+        android:padding="5dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="工程队负责人："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:gravity="right"
+            android:layout_weight="1"
+            android:id="@+id/et_project_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+   <!--工程队负责人电话-->
+    <LinearLayout
+        android:padding="5dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="工程队负责人电话："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:gravity="right"
+            android:layout_weight="1"
+            android:id="@+id/et_head_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 </LinearLayout>

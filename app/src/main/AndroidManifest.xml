@@ -66,6 +66,12 @@
         <activity
             android:name=".View.activity.StartWorkActivity">
         </activity>
+        <activity
+            android:name=".View.activity.UserInfoSetActivity">
+        </activity>
+        <activity
+            android:name=".View.activity.NewEarthWireActivity">
+        </activity>
     </application>
 
 </manifest>

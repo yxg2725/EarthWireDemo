@@ -6,4 +6,8 @@
         <item>工程队三</item>
         <item>工程队四</item>
     </string-array>
+    <string-array name="gps_style">
+        <item>GPS设备</item>
+        <item>虚拟定位</item>
+    </string-array>
 </resources>

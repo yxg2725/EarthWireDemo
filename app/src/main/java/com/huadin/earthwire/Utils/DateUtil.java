@@ -1,5 +1,6 @@
 package com.huadin.earthwire.Utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
@@ -19,6 +20,25 @@ public class DateUtil {
     public static String tohms(long timestamp) {
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
         return format.format(timestamp);
+    }
+
+    /**
+     * 将日期格式的字符串转换为长整型
+     *
+     * @param date
+     * @param format
+     * @return
+     */
+    public static long convert2long(String date, String format) {
+
+        SimpleDateFormat sf = new SimpleDateFormat(format);
+        try {
+            long time = sf.parse(date).getTime();
+            return time;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 }

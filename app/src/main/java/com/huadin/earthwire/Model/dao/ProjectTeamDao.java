@@ -25,9 +25,9 @@ public class ProjectTeamDao extends AbstractDao<ProjectTeam, Long> {
     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property Member = new Property(1, String.class, "member", false, "MEMBER");
-        public final static Property ProjectName = new Property(2, String.class, "projectName", false, "PROJECT_NAME");
-        public final static Property MemberPhone = new Property(3, String.class, "memberPhone", false, "MEMBER_PHONE");
+        public final static Property ProjectName = new Property(1, String.class, "projectName", false, "PROJECT_NAME");
+        public final static Property ProjectHeadName = new Property(2, String.class, "projectHeadName", false, "PROJECT_HEAD_NAME");
+        public final static Property ProjectHeadPhone = new Property(3, String.class, "projectHeadPhone", false, "PROJECT_HEAD_PHONE");
     };
 
 
@@ -44,9 +44,9 @@ public class ProjectTeamDao extends AbstractDao<ProjectTeam, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"PROJECT_TEAM\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
-                "\"MEMBER\" TEXT," + // 1: member
-                "\"PROJECT_NAME\" TEXT," + // 2: projectName
-                "\"MEMBER_PHONE\" TEXT);"); // 3: memberPhone
+                "\"PROJECT_NAME\" TEXT," + // 1: projectName
+                "\"PROJECT_HEAD_NAME\" TEXT," + // 2: projectHeadName
+                "\"PROJECT_HEAD_PHONE\" TEXT);"); // 3: projectHeadPhone
     }
 
     /** Drops the underlying database table. */
@@ -64,19 +64,19 @@ public class ProjectTeamDao extends AbstractDao<ProjectTeam, Long> {
             stmt.bindLong(1, id);
         }
  
-        String member = entity.getMember();
-        if (member != null) {
-            stmt.bindString(2, member);
-        }
- 
         String projectName = entity.getProjectName();
         if (projectName != null) {
-            stmt.bindString(3, projectName);
+            stmt.bindString(2, projectName);
         }
  
-        String memberPhone = entity.getMemberPhone();
-        if (memberPhone != null) {
-            stmt.bindString(4, memberPhone);
+        String projectHeadName = entity.getProjectHeadName();
+        if (projectHeadName != null) {
+            stmt.bindString(3, projectHeadName);
+        }
+ 
+        String projectHeadPhone = entity.getProjectHeadPhone();
+        if (projectHeadPhone != null) {
+            stmt.bindString(4, projectHeadPhone);
         }
     }
 
@@ -89,19 +89,19 @@ public class ProjectTeamDao extends AbstractDao<ProjectTeam, Long> {
             stmt.bindLong(1, id);
         }
  
-        String member = entity.getMember();
-        if (member != null) {
-            stmt.bindString(2, member);
-        }
- 
         String projectName = entity.getProjectName();
         if (projectName != null) {
-            stmt.bindString(3, projectName);
+            stmt.bindString(2, projectName);
         }
  
-        String memberPhone = entity.getMemberPhone();
-        if (memberPhone != null) {
-            stmt.bindString(4, memberPhone);
+        String projectHeadName = entity.getProjectHeadName();
+        if (projectHeadName != null) {
+            stmt.bindString(3, projectHeadName);
+        }
+ 
+        String projectHeadPhone = entity.getProjectHeadPhone();
+        if (projectHeadPhone != null) {
+            stmt.bindString(4, projectHeadPhone);
         }
     }
 
@@ -114,9 +114,9 @@ public class ProjectTeamDao extends AbstractDao<ProjectTeam, Long> {
     public ProjectTeam readEntity(Cursor cursor, int offset) {
         ProjectTeam entity = new ProjectTeam( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // member
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // projectName
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // memberPhone
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // projectName
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // projectHeadName
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // projectHeadPhone
         );
         return entity;
     }
@@ -124,9 +124,9 @@ public class ProjectTeamDao extends AbstractDao<ProjectTeam, Long> {
     @Override
     public void readEntity(Cursor cursor, ProjectTeam entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setMember(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setProjectName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setMemberPhone(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setProjectName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setProjectHeadName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setProjectHeadPhone(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
      }
     
     @Override

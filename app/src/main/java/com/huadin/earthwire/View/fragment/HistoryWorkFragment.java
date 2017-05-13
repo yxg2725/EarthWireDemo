@@ -1,21 +1,23 @@
 package com.huadin.earthwire.View.fragment;
 
 import android.app.ProgressDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.huadin.earthwire.Model.dao.bean.Project;
-import com.huadin.earthwire.Model.dao.bean.WorkName;
 import com.huadin.earthwire.Presenter.fragment.HistoryFragmentPresenter;
 import com.huadin.earthwire.R;
 import com.huadin.earthwire.View.activity.MainActivity;
+import com.huadin.earthwire.View.adapter.ProjectListAdapter;
 import com.huadin.earthwire.View.base.BaseFragment;
 import com.huadin.earthwire.View.widget.FilterDialog;
 import com.huadin.earthwire.dagger.conponent.DaggerFragmentConponent;
 import com.huadin.earthwire.dagger.module.FragmentModule;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -34,7 +36,8 @@ public class HistoryWorkFragment extends BaseFragment {
     @Inject
     HistoryFragmentPresenter historyFragmentPresenter;
     private ProgressDialog dialog;
-    private List<Project> projectList;
+    private List<Project> projectList = new ArrayList<>();
+    private ProjectListAdapter mAdater;
 
     @Override
     public int getlayoutId() {
@@ -49,6 +52,8 @@ public class HistoryWorkFragment extends BaseFragment {
 
         dialog = new ProgressDialog(activity);
         setHasOptionsMenu(true);
+
+        mRecyclerview.setLayoutManager(new LinearLayoutManager(activity));
     }
 
     @Override
@@ -85,12 +90,10 @@ public class HistoryWorkFragment extends BaseFragment {
                 @Override
                 public void onsearchCallback(String startTime, String projectname, String workname) {
                     filterDialog.dismiss();
-                    showToast("选择了条件开始查询");
                     dialog.show();
                     historyFragmentPresenter.query(startTime,projectname,workname);
                 }
             });
-            filterDialog.setCancelable(false);
             filterDialog.show();
         }
 
@@ -102,9 +105,17 @@ public class HistoryWorkFragment extends BaseFragment {
     @Override
     public void success(Object o) {
         dialog.dismiss();
-        List<Project> workNameList = (List<Project>) o;
+        List<Project> list = (List<Project>) o;
         projectList.clear();
-        projectList.addAll(workNameList);
+        projectList.addAll(list);
+
+        if (mAdater == null ){
+            mAdater = new ProjectListAdapter(activity,projectList);
+            mRecyclerview.setAdapter(mAdater);
+        }else{
+            mAdater.notifyDataSetChanged();
+        }
+
     }
 
     @Override

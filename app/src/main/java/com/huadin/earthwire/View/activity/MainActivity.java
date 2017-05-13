@@ -7,23 +7,31 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.huadin.earthwire.Model.dao.bean.Person;
+import com.huadin.earthwire.Presenter.activity.MainActivityPresenter;
 import com.huadin.earthwire.R;
-import com.huadin.earthwire.Utils.ConstUtil;
 import com.huadin.earthwire.View.base.BaseActivity;
 import com.huadin.earthwire.View.fragment.HistoryWorkFragment;
 import com.huadin.earthwire.View.fragment.PresentWorkFragment;
+import com.huadin.earthwire.dagger.conponent.DaggerCommonConponent;
+import com.huadin.earthwire.dagger.module.PresenterModule;
 
 import org.greenrobot.eventbus.EventBus;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    @Inject
+    MainActivityPresenter mainActivityPresenter;
 
     @BindView(R.id.toolbar)
     public Toolbar mToolbar;
@@ -35,6 +43,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     FrameLayout flContainer;
     private long mExitTime = 0;
     private SparseArray<String> mSparseTags = new SparseArray<>();
+    private View mHeaderView;
+    private TextView mTvUserName;
+    private TextView mTvProjectTeamName;
 
     @Override
     public void onBackPressed() {
@@ -70,6 +81,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void initView() {
 
+        DaggerCommonConponent.builder().presenterModule(new PresenterModule(this)).build().in(this);
+
         initToolBar(mToolbar, true, "地线管理");
         initDrawLayout();
         mSparseTags.put(R.id.nav_earthwork, "earthwork");
@@ -80,13 +93,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mSparseTags.put(R.id.nav_about, "about");
 
         // 侧拉菜单头部点击事件
-        View headerView = mNavView.getHeaderView(0);
-        headerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showToast("个人信息设置");
-            }
-        });
+        mHeaderView = mNavView.getHeaderView(0);
+        mTvUserName = (TextView) mHeaderView.findViewById(R.id.tv_use_people);
+        mTvProjectTeamName = (TextView) mHeaderView.findViewById(R.id.tv_project_team_name);
+
         // 侧拉菜单item点击事件 默认展示地线作业
         mNavView.setCheckedItem(R.id.nav_earthwork);
         replaceFragment(R.id.fl_container, new PresentWorkFragment(), mSparseTags.get(R.id.nav_earthwork));
@@ -102,12 +112,33 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void initlistener() {
         mNavView.setNavigationItemSelectedListener(this);
+        mHeaderView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                String user = mTvUserName.getText().toString();
+                String projectTeam = mTvProjectTeamName.getText().toString();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("user",user);
+                bundle.putString("projectTeam",projectTeam);
+
+                startToActivity(bundle,UserInfoSetActivity.class);
+            }
+        });
     }
 
     @Override
     protected void initData() {
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //查询数据库的个人信息
+        mainActivityPresenter.queryPersonInfo();
+
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -148,5 +179,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void success(Object o) {
+        super.success(o);
+        if(o != null){
+            Person person = (Person) o;
+            mTvUserName.setText(person.getUserName());
+            mTvProjectTeamName.setText(person.getProjectTeam());
+        }else{
+            mTvUserName.setText("姓名");
+            mTvProjectTeamName.setText("工程队");
+        }
+
     }
 }
