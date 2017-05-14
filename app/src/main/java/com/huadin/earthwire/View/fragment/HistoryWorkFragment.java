@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.baidu.location.BDLocation;
 import com.huadin.earthwire.Model.dao.bean.Project;
 import com.huadin.earthwire.Presenter.fragment.HistoryFragmentPresenter;
 import com.huadin.earthwire.R;
@@ -141,4 +142,5 @@ public class HistoryWorkFragment extends BaseFragment implements ProjectListAdap
     intent.putExtra("tag",this.getClass().getSimpleName());
     startActivity(intent);
   }
+
 }

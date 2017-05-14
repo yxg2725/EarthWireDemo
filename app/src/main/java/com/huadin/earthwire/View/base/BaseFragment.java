@@ -21,10 +21,13 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.platform.comapi.radar.Event;
 import com.huadin.earthwire.R;
 import com.huadin.earthwire.Utils.LogUtils;
 import com.huadin.earthwire.Utils.ToastUtils;
 import com.huadin.earthwire.View.widget.StateLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -166,6 +169,9 @@ public abstract class BaseFragment extends Fragment implements StateLayout.OnRel
         if (location == null || mMapview == null) {
             return;
         }
+
+        EventBus.getDefault().post(location);
+        //LogUtils.logi(this.getClass(),location.getLongitude() + "," + location.getLatitude());
 
         MyLocationData locData = new MyLocationData.Builder()
                 .accuracy(location.getRadius())

@@ -4,6 +4,8 @@
               android:layout_height="fill_parent"
               android:orientation="vertical" >
 <ScrollView
+    android:scrollbars="none"
+    android:id="@+id/sv_scrollview"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout

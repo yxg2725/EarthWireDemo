@@ -47,7 +47,8 @@ public class FilterDialog extends BaseDialog {
   public void onViewClicked(View view) {
     switch (view.getId()) {
       case R.id.btn_start://获取开始时间
-        new DateTimePickDialogUtil(context,0).dateTimePicKDialog(etStartTime);
+        DateTimePickDialogUtil dateTimePickDialogUtil = new DateTimePickDialogUtil(context, 0,false);
+        dateTimePickDialogUtil.dateTimePicKDialog(etStartTime);
         break;
       case R.id.btn_search:
 

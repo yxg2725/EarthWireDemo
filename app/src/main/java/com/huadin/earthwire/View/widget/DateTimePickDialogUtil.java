@@ -3,8 +3,12 @@ package com.huadin.earthwire.View.widget;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -25,6 +29,7 @@ public class DateTimePickDialogUtil implements DatePicker.OnDateChangedListener,
   private String dateTime;
   private long initDateTime;
   private Activity activity;
+  private boolean isSetMinDate;
 
   /**
    * 日期时间弹出选择框构造函数
@@ -34,10 +39,10 @@ public class DateTimePickDialogUtil implements DatePicker.OnDateChangedListener,
    * @param initDateTime
    *            初始日期时间值，作为弹出窗口的标题和日期时间初始值
    */
-  public DateTimePickDialogUtil(Activity activity, long initDateTime) {
+  public DateTimePickDialogUtil(Activity activity, long initDateTime,boolean isSetMinDate) {
     this.activity = activity;
     this.initDateTime = initDateTime;
-
+    this.isSetMinDate = isSetMinDate;
   }
 
   public void init(DatePicker datePicker, TimePicker timePicker) {
@@ -48,6 +53,9 @@ public class DateTimePickDialogUtil implements DatePicker.OnDateChangedListener,
       initDateTime = System.currentTimeMillis();
     }
 
+    if(isSetMinDate){
+      datePicker.setMinDate(initDateTime);
+    }
     datePicker.init(calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH), this);
@@ -67,6 +75,17 @@ public class DateTimePickDialogUtil implements DatePicker.OnDateChangedListener,
             .getLayoutInflater().inflate(R.layout.common_datetime, null);
     datePicker = (DatePicker) dateTimeLayout.findViewById(R.id.datepicker);
     timePicker = (TimePicker) dateTimeLayout.findViewById(R.id.timepicker);
+
+   /* ViewGroup.LayoutParams layoutParams = datePicker.getLayoutParams();
+
+    layoutParams.height = 90;
+
+    datePicker.setLayoutParams(layoutParams);*/
+
+    //是否隐藏时间选择器
+    if(!isSetMinDate){
+      timePicker.setVisibility(View.GONE);
+    }
     init(datePicker, timePicker);
     timePicker.setIs24HourView(true);
     timePicker.setOnTimeChangedListener(this);
@@ -101,11 +120,17 @@ public class DateTimePickDialogUtil implements DatePicker.OnDateChangedListener,
     // 获得日历实例
     Calendar calendar = Calendar.getInstance();
 
-    calendar.set(datePicker.getYear(), datePicker.getMonth(),
-            datePicker.getDayOfMonth(), timePicker.getCurrentHour(),
-            timePicker.getCurrentMinute());
+    if (!isSetMinDate){//查询历史记录
+      calendar.set(datePicker.getYear(), datePicker.getMonth(),
+              datePicker.getDayOfMonth(),0,0,0);
+      dateTime = DateUtil.timestamp2ymd(calendar.getTimeInMillis());
+    }else{//设置最小日期  为 设置预计结束时间
+      calendar.set(datePicker.getYear(), datePicker.getMonth(),
+              datePicker.getDayOfMonth(), timePicker.getCurrentHour(),
+              timePicker.getCurrentMinute());
+      dateTime = DateUtil.toymdhms(calendar.getTimeInMillis());
+    }
 
-    dateTime = DateUtil.toymdhms(calendar.getTimeInMillis());
     ad.setTitle(dateTime);
   }
 }

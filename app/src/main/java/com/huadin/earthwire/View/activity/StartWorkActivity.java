@@ -97,7 +97,7 @@ public class StartWorkActivity extends BaseActivity implements ProjectListAdapte
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (requestCode == REQUEST_NEWWORK) {
+    if (requestCode == REQUEST_NEWWORK && resultCode == NewFWorkActivity.RESULT_NEWWORK) {
       startWorkActivityPresenter.getResultData(requestCode,resultCode,data);
 
       //跳转到作业中界面
