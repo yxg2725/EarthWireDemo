@@ -1,6 +1,7 @@
 package com.huadin.earthwire.View.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +24,13 @@ public class ProjectDetailAdapter extends RecyclerView.Adapter {
 
   private final DetailWorkActivity activity;
   private final List<EarthWire> earthWireList;
-  private int postion;
+  private String tag;
 
 
-  public ProjectDetailAdapter(DetailWorkActivity activity, List<EarthWire> earthWireList) {
+  public ProjectDetailAdapter(DetailWorkActivity activity, List<EarthWire> earthWireList,String tag) {
     this.activity = activity;
     this.earthWireList = earthWireList;
+    this.tag = tag;
   }
 
   @Override
@@ -41,7 +43,6 @@ public class ProjectDetailAdapter extends RecyclerView.Adapter {
   public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
     MyViewHolder myHolder = (MyViewHolder) holder;
     myHolder.setItem(position);
-    this.postion = position;
   }
 
   @Override
@@ -49,7 +50,7 @@ public class ProjectDetailAdapter extends RecyclerView.Adapter {
     return earthWireList == null ? 0: earthWireList.size();
   }
 
-  class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+  class MyViewHolder extends RecyclerView.ViewHolder {
 
 
     private final TextView mTvCountDown;
@@ -72,9 +73,16 @@ public class ProjectDetailAdapter extends RecyclerView.Adapter {
       mTv_title = (TextView) itemView.findViewById(R.id.tv_title);
       mTvCountDown = (TextView) itemView.findViewById(R.id.tv_count_down);//倒计时
 
+      if (TextUtils.equals(tag,"HistoryWorkFragment")){
+        mTvCountDown.setVisibility(View.GONE);
+        mBtnReality.setVisibility(View.GONE);
+      }else{
+        mTvCountDown.setVisibility(View.VISIBLE);
+        mBtnReality.setVisibility(View.VISIBLE);
+      }
     }
 
-    public void setItem(int position) {
+    public void setItem(final int position) {
       projectName = earthWireList.get(position).getProjectName();//工程名
       long startTimeMillis = earthWireList.get(position).getStartTimeMillis();
       String startTime = DateUtil.toymdhms(startTimeMillis);
@@ -82,7 +90,7 @@ public class ProjectDetailAdapter extends RecyclerView.Adapter {
 
       planEndTimeMillis = earthWireList.get(position).getPlanEndTime();
       String planEndTime = DateUtil.toymdhms(planEndTimeMillis);
-      long len = planEndTimeMillis - startTimeMillis;
+      long len = planEndTimeMillis - startTimeMillis - 8*60*60*1000;//减去8个小时  东八区
       String counDown = "";
       if(len < 24*60*60*1000){
          counDown = DateUtil.tohms(len);
@@ -97,19 +105,18 @@ public class ProjectDetailAdapter extends RecyclerView.Adapter {
       mEtExpectTime.setText(planEndTime);
       mTvCurrentState.setText(currentState);
       mTvCountDown.setText(counDown);
+
+      //没有完成时 结束时间为0
       if(realEndTime > 0){
         mEtRealityTime.setText(DateUtil.toymdhms(realEndTime));
       }
       mTv_title.setText("地线" + (position+1));
 
 
-      mBtnReality.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View view) {
-      switch (view.getId()) {
-        case R.id.btn_reality://结束时间
+      //点击完成
+      mBtnReality.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
           long endTimeMillis = System.currentTimeMillis();
           String realEndTime = DateUtil.tohms(endTimeMillis);
           mEtRealityTime.setText(realEndTime);
@@ -125,13 +132,14 @@ public class ProjectDetailAdapter extends RecyclerView.Adapter {
                   .queryBuilder()
                   .where(EarthWireDao.Properties.ProjectName.eq(projectName))
                   .build().list();
+          int postion = position;
           EarthWire earthWire = list.get(postion);
           earthWire.setCurrentState(currentState);
           earthWire.setRealEndTime(endTimeMillis);
           DaoManager.getInstance().getDaoSession().getEarthWireDao().update(earthWire);
-
-          break;
-      }
+        }
+      });
     }
+
   }
 }

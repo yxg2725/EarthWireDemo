@@ -86,7 +86,9 @@ public class NewFWorkActivity extends BaseActivity {
 
   private void returnStartFragment(String workName,String teamHead,String phone) {
     Intent intent = new Intent();
-    intent.putExtra("workName",workName);
+    intent.putExtra("workname",workName);
+    intent.putExtra("teamHead",teamHead);
+    intent.putExtra("tag",this.getClass().getSimpleName());
     setResult(RESULT_NEWWORK,intent);
     finish();
   }

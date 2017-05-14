@@ -1,6 +1,7 @@
 package com.huadin.earthwire.View.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import com.huadin.earthwire.Model.dao.bean.Project;
 import com.huadin.earthwire.Presenter.fragment.HistoryFragmentPresenter;
 import com.huadin.earthwire.R;
+import com.huadin.earthwire.View.activity.DetailWorkActivity;
 import com.huadin.earthwire.View.activity.MainActivity;
 import com.huadin.earthwire.View.adapter.ProjectListAdapter;
 import com.huadin.earthwire.View.base.BaseFragment;
@@ -28,7 +30,7 @@ import butterknife.BindView;
  * Created by Jack Zhang on 2017/5/11.
  */
 
-public class HistoryWorkFragment extends BaseFragment {
+public class HistoryWorkFragment extends BaseFragment implements ProjectListAdapter.OnToDetailListener {
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
@@ -54,6 +56,15 @@ public class HistoryWorkFragment extends BaseFragment {
         setHasOptionsMenu(true);
 
         mRecyclerview.setLayoutManager(new LinearLayoutManager(activity));
+
+        if (mAdater == null ){
+          mAdater = new ProjectListAdapter(activity,projectList);
+          mRecyclerview.setAdapter(mAdater);
+        }else{
+          mAdater.notifyDataSetChanged();
+        }
+
+      mAdater.setOnToDetailListener(this);
     }
 
     @Override
@@ -122,4 +133,12 @@ public class HistoryWorkFragment extends BaseFragment {
     public void failed(String msg) {
 
     }
+
+  @Override
+  public void onToDetailListenerCallBack(String workname) {
+    Intent intent = new Intent(activity, DetailWorkActivity.class);
+    intent.putExtra("workname",workname);
+    intent.putExtra("tag",this.getClass().getSimpleName());
+    startActivity(intent);
+  }
 }

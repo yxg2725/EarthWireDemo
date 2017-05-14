@@ -3,7 +3,9 @@ package com.huadin.earthwire.Presenter.activity;
 import android.content.Intent;
 
 import com.huadin.earthwire.Model.dao.DaoManager;
+import com.huadin.earthwire.Model.dao.EarthWireDao;
 import com.huadin.earthwire.Model.dao.ProjectDao;
+import com.huadin.earthwire.Model.dao.bean.EarthWire;
 import com.huadin.earthwire.Model.dao.bean.Person;
 import com.huadin.earthwire.Model.dao.bean.Project;
 import com.huadin.earthwire.Utils.DateUtil;
@@ -24,7 +26,7 @@ public class StartWorkActivityPresenter {
   }
 
   public void getResultData(int requestCode, int resultCode, Intent data) {
-      String workName = data.getStringExtra("workName");
+      String workName = data.getStringExtra("workname");
       String teamHead = data.getStringExtra("teamHead");
 
     List<Person> persons = DaoManager.getInstance().getDaoSession().getPersonDao().loadAll();
@@ -54,6 +56,36 @@ public class StartWorkActivityPresenter {
             .queryBuilder().where(ProjectDao.Properties.CompleteState.eq("进行中"))
             .list();
 
-    startWorkActivity.success(list);
+    //遍历数据库中所有的  进行中的工程
+    for (Project project : list) {
+
+      //查询每个工程里的 地线数据
+      List<EarthWire> list1 = DaoManager.getInstance().getDaoSession().getEarthWireDao().queryBuilder()
+              .where(EarthWireDao.Properties.ProjectName.eq(project.getWorkName())).build().list();
+
+      //如果该工程下已经创建了地线 查找该工程下的所有进行中的低地线个数
+      if(list1.size() > 0){
+        List<EarthWire> list2 = DaoManager.getInstance().getDaoSession().getEarthWireDao().queryBuilder()
+                .where(EarthWireDao.Properties.ProjectName.eq(project.getWorkName())
+                ,EarthWireDao.Properties.CurrentState.eq("进行中")).build().list();
+
+        //该工程下的地线都完成了 更新该工程状态为 已完成
+        if(list2.size() == 0){
+          Project unique = DaoManager.getInstance().getDaoSession().getProjectDao()
+                  .queryBuilder().where(ProjectDao.Properties.WorkName.eq(project.getWorkName())).unique();
+          unique.setCompleteState("已完成");
+
+          DaoManager.getInstance().getDaoSession().getProjectDao().update(unique);
+        }
+      }
+    }
+
+    //再次查询进行中的工程
+    List<Project> list3 = DaoManager.getInstance().getDaoSession().getProjectDao()
+            .queryBuilder().where(ProjectDao.Properties.CompleteState.eq("进行中"))
+            .list();
+
+    //展示进行中的工程
+    startWorkActivity.success(list3);
   }
 }

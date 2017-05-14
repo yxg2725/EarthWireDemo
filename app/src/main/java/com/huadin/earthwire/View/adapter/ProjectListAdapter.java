@@ -80,9 +80,18 @@ public class ProjectListAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onClick(View view) {
-      Intent intent = new Intent(activity, DetailWorkActivity.class);
-      intent.putExtra("workName",workName);
-      activity.startActivity(intent);
+      if(toDetailListener != null){
+        toDetailListener.onToDetailListenerCallBack(workName);
+      }
     }
+  }
+
+  //设置回调
+  private OnToDetailListener  toDetailListener;
+  public interface OnToDetailListener{
+    void onToDetailListenerCallBack(String workname);
+  }
+  public void setOnToDetailListener(OnToDetailListener  toDetailListener){
+    this.toDetailListener = toDetailListener;
   }
 }

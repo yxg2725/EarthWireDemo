@@ -5,7 +5,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.View;
 
+import com.baidu.mapapi.map.Text;
 import com.huadin.earthwire.Model.dao.bean.EarthWire;
 import com.huadin.earthwire.Presenter.activity.DetailWorkActivityPresenter;
 import com.huadin.earthwire.R;
@@ -41,6 +44,7 @@ public class DetailWorkActivity extends BaseActivity {
   private ProjectDetailAdapter mAdapter;
   private String workName;
   private List<EarthWire> earthWireList = new ArrayList<>();
+  private String tag;
 
   @Override
   public int getlayoutId() {
@@ -54,12 +58,19 @@ public class DetailWorkActivity extends BaseActivity {
             .presenterModule(new PresenterModule(this)).build().in(this);
 
     Intent intent = getIntent();
-    workName = intent.getStringExtra("workName");
+    workName = intent.getStringExtra("workname");
+    tag = intent.getStringExtra("tag");
+
+    if (TextUtils.equals(tag,"HistoryWorkFragment")){
+      mFab.setVisibility(View.GONE);
+    }else{
+      mFab.setVisibility(View.VISIBLE);
+    }
 
     initToolBar(mToolbar,true, workName);
     mRecyclerview.setLayoutManager(new LinearLayoutManager(this));
     if(mAdapter == null){
-      mAdapter = new ProjectDetailAdapter(this,earthWireList);
+      mAdapter = new ProjectDetailAdapter(this,earthWireList,tag);
       mRecyclerview.setAdapter(mAdapter);
     }else{
       mAdapter.notifyDataSetChanged();
@@ -103,7 +114,7 @@ public class DetailWorkActivity extends BaseActivity {
       earthWireList.addAll(list);
 
     if(mAdapter == null){
-      mAdapter = new ProjectDetailAdapter(this,earthWireList);
+      mAdapter = new ProjectDetailAdapter(this,earthWireList,tag);
       mRecyclerview.setAdapter(mAdapter);
     }else{
       mAdapter.notifyDataSetChanged();

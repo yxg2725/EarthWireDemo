@@ -29,7 +29,7 @@ import static com.baidu.mapapi.BMapManager.getContext;
  * Created by 华电 on 2017/5/12.
  */
 
-public class StartWorkActivity extends BaseActivity {
+public class StartWorkActivity extends BaseActivity implements ProjectListAdapter.OnToDetailListener {
 
   @Inject
   StartWorkActivityPresenter startWorkActivityPresenter;
@@ -71,7 +71,7 @@ public class StartWorkActivity extends BaseActivity {
 
   @Override
   protected void initlistener() {
-
+    mAdapter.setOnToDetailListener(this);
   }
 
   @Override
@@ -121,5 +121,13 @@ public class StartWorkActivity extends BaseActivity {
     }else{
       mAdapter.notifyDataSetChanged();
     }
+  }
+
+  @Override
+  public void onToDetailListenerCallBack(String workname) {
+    Intent intent = new Intent(this, DetailWorkActivity.class);
+    intent.putExtra("workname",workname);
+    intent.putExtra("tag",this.getClass().getSimpleName());
+    startActivity(intent);
   }
 }

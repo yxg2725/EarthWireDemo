@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.huadin.earthwire.R;
 import com.huadin.earthwire.Utils.Constant;
+import com.huadin.earthwire.Utils.LogUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -47,9 +48,11 @@ public class FilterDialog extends BaseDialog {
     switch (view.getId()) {
       case R.id.btn_start://获取开始时间
         new DateTimePickDialogUtil(context,0).dateTimePicKDialog(etStartTime);
-        startTime = etStartTime.getText().toString();
         break;
       case R.id.btn_search:
+
+        startTime = etStartTime.getText().toString();
+        LogUtils.logi(this.getClass(),startTime);
         //获取作业名称
         String workname = etWorkName.getText().toString();
         int selectedID = spProjectTeamName.getSelectedItemPosition();
